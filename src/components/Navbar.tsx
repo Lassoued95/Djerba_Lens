@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Sun, Moon, Camera } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
 const Navbar = () => {
@@ -13,7 +13,6 @@ const Navbar = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -27,17 +26,25 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${
-      isScrolled || isOpen
-        ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg'
-        : 'bg-transparent'
-    }`}>
+    <nav
+      className={`fixed w-full z-50 transition-all duration-300 ${
+        isScrolled || isOpen
+          ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg'
+          : 'bg-transparent'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
-            <Camera className="h-8 w-8 text-orange-600 group-hover:rotate-12 transition-transform duration-300" />
-            <span className="text-xl font-bold text-gray-900 dark:text-white">
+          <Link to="/" className="flex items-center space-x-3 group">
+            <div className="bg-orange-100 dark:bg-orange-700 p-2 rounded-full shadow-md hover:shadow-xl transition-all duration-500 transform hover:scale-110 hover:rotate-3">
+              <img
+                src="assets/images/bg/logo.png"
+                alt="Djerba Lens Logo"
+                className="h-10 w-10 object-contain rounded-full"
+              />
+            </div>
+            <span className="text-xl font-bold text-gray-900 dark:text-white tracking-wide bg-white/20 dark:bg-gray-800/30 px-3 py-1 rounded-full backdrop-blur-sm transition-all duration-300 group-hover:bg-white/30 dark:group-hover:bg-gray-800/50">
               Djerba Lens
             </span>
           </Link>
@@ -57,7 +64,7 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
-            
+
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}

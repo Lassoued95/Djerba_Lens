@@ -12,6 +12,7 @@
   "dependencies": {
     "@copilotkit/react-core": "^1.9.1",
     "@copilotkit/react-ui": "^1.9.1",
+    "copilotkit": "^0.0.58",
     "emailjs-com": "^3.2.0",
     "firebase": "^11.9.1",
     "lucide-react": "^0.344.0",

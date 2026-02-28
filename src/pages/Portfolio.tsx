@@ -4,7 +4,7 @@ import AnimatedSection from '../components/AnimatedSection';
 
 const Portfolio = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedItem, setSelectedItem] = useState<{ type: 'image'; src: string } | null>(null);
+  const [selectedItem, setSelectedItem] = useState<{ type: 'image' | 'video'; src: string } | null>(null);
 
   const categories = [
     { id: 'all', name: 'All Work' },
@@ -15,18 +15,32 @@ const Portfolio = () => {
   ];
 
   const portfolioItems = [
-    { id: 1, category: 'tourists', image: '/assets/images/tourists/2.jpg', title: 'Couple Photography in Djerba', type: 'image' },
+    { id: 1, category: 'tourists', image: '/assets/images/tourists/1.jpg', title: 'Couple Photography in Djerba', type: 'image' },
     { id: 2, category: 'horse', image: '/assets/images/horse/5.jpg', title: 'Camel & Horse Riding in Djerba', type: 'image' },
-    { id: 3, category: 'horse', image: '/assets/images/horse/1.jpg', title: 'Traditional Tunisian Market', type: 'image' },
-    { id: 4, category: 'villas', image: '/assets/images/villas/1.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
-    { id: 5, category: 'horse', image: '/assets/images/horse/3.jpg', title: 'Artisan at Work', type: 'image' },
-    { id: 6, category: 'villas', image: '/assets/images/villas/2.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
-    { id: 7, category: 'tourists', image: '/assets/images/tourists/1.jpg', title: 'Couple Photography in Djerba', type: 'image' },
-    { id: 8, category: 'horse', image: '/assets/images/horse/2.jpg', title: 'Horseback Riding in Djerba', type: 'image' },
-    { id: 9, category: 'villas', image: '/assets/images/villas/5.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
-    { id: 10, category: 'horse', image: '/assets/images/horse/4.jpeg', title: 'Horseback Riding in Djerba', type: 'image' },
-    { id: 11, category: 'villas', image: '/assets/images/villas/6.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
-    { id: 12, category: 'villas', image: '/assets/images/villas/7.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
+    { id: 3, category: 'tourists', image: '/assets/images/tourists/3.jpeg', title: '', type: 'image' },
+    { id: 4, category: 'tourists', image: '/assets/images/tourists/4.jpeg', title: '', type: 'image' },
+    { id: 5, category: 'tourists', image: '/assets/images/tourists/5.jpeg', title: '', type: 'image' },
+    { id: 6, category: 'tourists', image: '/assets/images/tourists/6.jpeg', title: '', type: 'image' },
+    { id: 7, category: 'horse', image: '/assets/images/horse/1.jpg', title: 'Traditional Tunisian Market', type: 'image' },
+    { id: 8, category: 'villas', image: '/assets/images/villas/1.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
+    { id: 9, category: 'horse', image: '/assets/images/horse/3.jpg', title: 'Artisan at Work', type: 'image' },
+    { id: 10, category: 'villas', image: '/assets/images/villas/2.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
+    { id: 11, category: 'tourists', image: '/assets/images/tourists/1.jpg', title: 'Couple Photography in Djerba', type: 'image' },
+    { id: 12, category: 'horse', image: '/assets/images/horse/2.jpg', title: 'Horseback Riding in Djerba', type: 'image' },
+    { id: 13, category: 'villas', image: '/assets/images/villas/5.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
+    { id: 14, category: 'horse', image: '/assets/images/horse/4.jpeg', title: 'Horseback Riding in Djerba', type: 'image' },
+    { id: 15, category: 'villas', image: '/assets/images/villas/6.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
+    { id: 16, category: 'villas', image: '/assets/images/villas/7.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
+
+    // Vertical video for tourists
+    { 
+      id: 17, 
+      category: 'tourists', 
+      image: '/assets/images/tourists/cover-djerba.jpg', // cover image thumbnail
+      title: 'Explore Djerba - Vertical Video', 
+      type: 'video', 
+      videoSrc: '/assets/images/tourists/djerba.mp4'
+    },
   ];
 
   const videoShowcase = {
@@ -83,13 +97,28 @@ const Portfolio = () => {
             <AnimatedSection key={item.id} delay={idx * 100}>
               <div
                 className="group relative overflow-hidden rounded-xl shadow hover:shadow-lg cursor-pointer"
-                onClick={() => setSelectedItem({ type: 'image', src: item.image })}
+                onClick={() => {
+                  if (item.type === 'image') setSelectedItem({ type: 'image', src: item.image });
+                  else if (item.type === 'video') setSelectedItem({ type: 'video', src: item.videoSrc });
+                }}
               >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+                {item.type === 'image' ? (
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="w-full h-64 flex items-center justify-center bg-black rounded-xl overflow-hidden">
+                    <video
+                      src={item.videoSrc}
+                      className="h-full object-cover"
+                      muted
+                      autoPlay
+                      loop
+                    />
+                  </div>
+                )}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
                   <h3 className="text-white font-semibold text-sm">{item.title}</h3>
                 </div>
@@ -122,18 +151,28 @@ const Portfolio = () => {
       {/* Lightbox */}
       {selectedItem && (
         <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
-          <div className="relative max-w-4xl max-h-full">
+          <div className="relative max-w-md w-full max-h-[90vh]">
             <button
               onClick={() => setSelectedItem(null)}
               className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 rounded-full"
             >
               <X className="h-6 w-6 text-white" />
             </button>
-            <img
-              src={selectedItem.src}
-              alt="Preview"
-              className="max-w-full max-h-full object-contain rounded-lg"
-            />
+
+            {selectedItem.type === 'image' ? (
+              <img
+                src={selectedItem.src}
+                alt="Preview"
+                className="w-full h-full object-contain rounded-lg"
+              />
+            ) : (
+              <video
+                src={selectedItem.src}
+                controls
+                className="w-full h-full object-cover rounded-lg"
+                autoPlay
+              />
+            )}
           </div>
         </div>
       )}

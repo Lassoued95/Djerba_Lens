@@ -1,6 +1,5 @@
-// firebaseConfig.ts
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, Timestamp } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
@@ -16,3 +15,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+export { Timestamp };
+
+export const getUserId = (): string => {
+  let userId = localStorage.getItem('userId');
+  if (!userId) {
+    userId = 'user_' + Math.random().toString(36).substring(2, 9);
+    localStorage.setItem('userId', userId);
+  }
+  return userId;
+};

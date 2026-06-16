@@ -10,15 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@copilotkit/react-core": "^1.60.1",
-    "@copilotkit/react-textarea": "^1.60.1",
     "@copilotkit/react-ui": "^1.60.1",
-=======
-    "@copilotkit/react-core": "^1.9.1",
-    "@copilotkit/react-ui": "^1.9.1",
-    "copilotkit": "^0.0.58",
->>>>>>> 91bee56cc63f527ac6f45c14d748f5c889bd28a6
     "emailjs-com": "^3.2.0",
     "firebase": "^11.9.1",
     "lucide-react": "^0.344.0",

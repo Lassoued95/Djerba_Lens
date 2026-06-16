@@ -12,6 +12,7 @@ const Portfolio = () => {
     { id: 'villas', name: 'Luxury Villas' },
     { id: 'local-life', name: 'Local Life' },
     { id: 'horse', name: 'Horse & Camel Rides' },
+    { id: 'food', name: 'Food Photography' },
   ];
 
   const portfolioItems = [
@@ -22,12 +23,24 @@ const Portfolio = () => {
     { id: 5, category: 'horse', image: '/assets/images/horse/3.jpg', title: 'Artisan at Work', type: 'image' },
     { id: 6, category: 'villas', image: '/assets/images/villas/2.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
     { id: 7, category: 'tourists', image: '/assets/images/tourists/1.jpg', title: 'Couple Photography in Djerba', type: 'image' },
-    { id: 8, category: 'horse', image: '/assets/images/horse/2.jpg', title: 'Horseback Riding in Djerba', type: 'image' },
+    { id: 8, category: 'horse', image: '/assets/images/horse/2.png', title: 'Horseback Riding in Djerba', type: 'image' },
     { id: 9, category: 'villas', image: '/assets/images/villas/5.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
     { id: 10, category: 'horse', image: '/assets/images/horse/4.jpeg', title: 'Horseback Riding in Djerba', type: 'image' },
     { id: 11, category: 'villas', image: '/assets/images/villas/6.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
     { id: 12, category: 'villas', image: '/assets/images/villas/7.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
+
+    { id: 13, category: 'food', image: '/assets/images/food/1.png', title: 'Shooting for a food brand', type: 'image' },
+    { id: 14, category: 'food', image: '/assets/images/food/2.png', title: 'Shooting for a food brand', type: 'image' },
+    { id: 15, category: 'food', image: '/assets/images/food/3.png', title: 'Shooting for a food brand', type: 'image' },
+    { id: 16, category: 'food', image: '/assets/images/food/4.png', title: 'Shooting for a food brand', type: 'image' },
+    { id: 17, category: 'food', image: '/assets/images/food/5.png', title: 'Shooting for a food brand', type: 'image' },
+    { id: 18, category: 'food', image: '/assets/images/food/6.png', title: 'Food photography', type: 'image' },
+    { id: 19, category: 'food', image: '/assets/images/food/7.png', title: 'Food photography', type: 'image' },
+    { id: 20, category: 'food', image: '/assets/images/food/8.png', title: 'Food photography', type: 'image' },
+    { id: 21, category: 'food', image: '/assets/images/food/9.png', title: 'Food photography', type: 'image' },
+    { id: 22, category: 'food', image: '/assets/images/food/10.png', title: 'Food photography', type: 'image' },
   ];
+
 
   const videoShowcase = {
     src: '/assets/images/villas/vd.mp4',

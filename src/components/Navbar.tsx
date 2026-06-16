@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Sun, Moon, Camera } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
 const Navbar = () => {
@@ -36,7 +36,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group">
-            <Camera className="h-8 w-8 text-orange-600 group-hover:rotate-12 transition-transform duration-300" />
+            <img src="/assets/images/logo.png" alt="Djerba Lens logo" className="h-10 w-10 rounded-full object-cover border border-gray-200 dark:border-gray-700 group-hover:rotate-12 transition-transform duration-300" />
             <span className="text-xl font-bold text-gray-900 dark:text-white">
               Djerba Lens
             </span>

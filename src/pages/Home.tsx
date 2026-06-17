@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Camera, MapPin, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
 import ReviewList from '../components/ReviewList';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { t } = useTranslation();
 
   const heroImages = [
     'assets/images/bg/bg5.jpeg',
@@ -80,29 +82,28 @@ const Home = () => {
           <AnimatedSection>
             <div className="flex items-center justify-center mb-6">
               <MapPin className="h-6 w-6 text-orange-400 mr-2" />
-              <span className="text-orange-400 font-medium">Djerba, Tunisia</span>
+              <span className="text-orange-400 font-medium">{t('hero.location')}</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              Capturing
-              <span className="text-orange-400 block">Tunisia's Beauty</span>
+              {t('hero.title1')}
+              <span className="text-orange-400 block">{t('hero.title2')}</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">
-              Freelance photographer & creative based in Djerba, Tunisia.<br />
-              Specializing in tourist photography, landscapes, and digital content creation.
+              {t('hero.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/portfolio"
                 className="inline-flex items-center px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
-                View My Work
+                {t('hero.viewWork')}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
               <Link
                 to="/contact"
                 className="inline-flex items-center px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg backdrop-blur-sm transition-all duration-300 border border-white/20 hover:border-white/30"
               >
-                Book a Session
+                {t('hero.bookSession')}
                 <Camera className="ml-2 h-5 w-5" />
               </Link>
             </div>
@@ -116,10 +117,10 @@ const Home = () => {
           <AnimatedSection>
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                Featured Work
+                {t('featured.title')}
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                A glimpse into the diverse photography services I offer across Djerba and Tunisia
+                {t('featured.description')}
               </p>
             </div>
           </AnimatedSection>
@@ -169,7 +170,7 @@ const Home = () => {
                 to="/portfolio"
                 className="inline-flex items-center px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
-                View Full Portfolio
+                {t('portfolio.viewFull')}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </div>
@@ -183,10 +184,10 @@ const Home = () => {
           <AnimatedSection>
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                My Services
+                {t('services.title')}
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Professional photography and creative services tailored to your needs
+                {t('services.description')}
               </p>
             </div>
           </AnimatedSection>
@@ -224,7 +225,7 @@ const Home = () => {
                 to="/services"
                 className="inline-flex items-center px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
-                View All Services
+                {t('services.viewAll')}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </div>
@@ -238,10 +239,10 @@ const Home = () => {
           <AnimatedSection>
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                What Clients Say
+                {t('reviews.title')}
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300">
-                Trusted by tourists and businesses across Tunisia
+                {t('reviews.description')}
               </p>
             </div>
           </AnimatedSection>
@@ -254,7 +255,7 @@ const Home = () => {
                 to="/contact"
                 className="inline-flex items-center px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
-                Leave a Review
+                {t('reviews.leaveReview')}
                 <Star className="ml-2 h-5 w-5" />
               </Link>
             </div>

@@ -11,8 +11,8 @@ export const businessInfo = {
     email: "djerbatnsphoto@gmail.com",
     phone: "+216 25 740 872",
     whatsapp: "+216 25 740 872",
-    instagram: "@djerbatns",
-    instagramUrl: "https://www.instagram.com/djerbatns",
+    instagram: "@djerbalens",
+    instagramUrl: "https://www.instagram.com/djerbalens",
     responseTime: "Within 24 hours"
   },
   

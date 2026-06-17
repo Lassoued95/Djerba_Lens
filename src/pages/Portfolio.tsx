@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { X } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
+import { useTranslation } from 'react-i18next';
 
 type PortfolioItem = {
   id: number;
@@ -75,16 +76,16 @@ const Portfolio = () => {
     ? portfolioItems
     : portfolioItems.filter(item => item.category === selectedCategory);
 
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen pt-16">
       {/* Header */}
       <section className="bg-gradient-to-r from-orange-600 to-orange-800 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <AnimatedSection>
-            <h1 className="text-5xl font-bold mb-4">Portfolio</h1>
-            <p className="text-xl max-w-2xl mx-auto text-orange-100">
-              Explore my photography capturing the essence of Djerba and unforgettable moments.
-            </p>
+            <AnimatedSection>
+            <h1 className="text-5xl font-bold mb-4">{t('portfolio.title')}</h1>
+            <p className="text-xl max-w-2xl mx-auto text-orange-100">{t('portfolio.description')}</p>
           </AnimatedSection>
         </div>
       </section>

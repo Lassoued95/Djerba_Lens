@@ -10,6 +10,7 @@ import {
   Check
 } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
+import { useTranslation } from 'react-i18next';
 
 const Services = () => {
   const services = [
@@ -76,6 +77,7 @@ const Services = () => {
   }
 ];
 
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen pt-16">
@@ -84,10 +86,8 @@ const Services = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <div className="text-center">
-              <h1 className="text-5xl font-bold mb-6">Services</h1>
-              <p className="text-xl text-teal-100 max-w-3xl mx-auto">
-                Professional photography and creative services to help you capture memories and promote your business in Djerba
-              </p>
+              <h1 className="text-5xl font-bold mb-6">{t('services.title')}</h1>
+              <p className="text-xl text-teal-100 max-w-3xl mx-auto">{t('services.description')}</p>
             </div>
           </AnimatedSection>
         </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowRight, MapPin, Camera } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
@@ -70,6 +71,8 @@ const Blog = () => {
   const featuredPost = blogPosts.find(post => post.featured);
   const regularPosts = blogPosts.filter(post => !post.featured);
 
+  const { t } = useTranslation();
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
@@ -86,9 +89,9 @@ const Blog = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <div className="text-center">
-              <h1 className="text-5xl font-bold mb-6">Blog</h1>
+              <h1 className="text-5xl font-bold mb-6">{t('blog.title')}</h1>
               <p className="text-xl text-indigo-100 max-w-2xl mx-auto">
-                Photography tips, travel guides, and insights from exploring Tunisia through my lens
+                {t('blog.description')}
               </p>
             </div>
           </AnimatedSection>

@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { isDark, toggleTheme } = useTheme();
   const location = useLocation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,11 +21,11 @@ const Navbar = () => {
   }, []);
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Portfolio', href: '/portfolio' },
-    { name: 'Services', href: '/services' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
+    { name: 'nav.home', href: '/' },
+    { name: 'nav.portfolio', href: '/portfolio' },
+    { name: 'nav.services', href: '/services' },
+    { name: 'nav.about', href: '/about' },
+    { name: 'nav.contact', href: '/contact' },
   ];
 
   return (
@@ -45,7 +48,7 @@ const Navbar = () => {
               />
             </div>
             <span className="text-xl font-bold text-gray-900 dark:text-white tracking-wide bg-white/20 dark:bg-gray-800/30 px-3 py-1 rounded-full backdrop-blur-sm transition-all duration-300 group-hover:bg-white/30 dark:group-hover:bg-gray-800/50">
-              Djerba Lens
+              {t('site.title')}
             </span>
           </Link>
 
@@ -61,9 +64,11 @@ const Navbar = () => {
                     : 'text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400'
                 }`}
               >
-                {item.name}
+                {t(item.name)}
               </Link>
             ))}
+
+            <LanguageSwitcher />
 
             {/* Theme Toggle */}
             <button
@@ -118,9 +123,13 @@ const Navbar = () => {
                       : 'text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-50 dark:hover:bg-gray-800'
                   }`}
                 >
-                  {item.name}
+                  {t(item.name)}
                 </Link>
               ))}
+
+              <div className="pt-2 px-3">
+                <LanguageSwitcher />
+              </div>
             </div>
           </div>
         )}

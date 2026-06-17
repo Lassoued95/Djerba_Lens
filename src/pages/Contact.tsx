@@ -4,9 +4,11 @@ import AnimatedSection from '../components/AnimatedSection';
 import ReviewForm from '../components/ReviewForm';
 import ReviewList from '../components/ReviewList';
 import ContactForm from '../components/contactform';
+import { useTranslation } from 'react-i18next';
 
 const Contact = () => {
   const [activeTab, setActiveTab] = useState<'contact' | 'review'>('contact');
+  const { t } = useTranslation();
 
   const contactInfo = [
     {
@@ -48,10 +50,8 @@ const Contact = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <div className="text-center">
-              <h1 className="text-5xl font-bold mb-6">Get in Touch</h1>
-              <p className="text-xl text-red-100 max-w-2xl mx-auto">
-                Ready to capture your perfect moments in Tunisia? Let's discuss your project and create something beautiful together.
-              </p>
+              <h1 className="text-5xl font-bold mb-6">{t('contact.getInTouch')}</h1>
+              <p className="text-xl text-red-100 max-w-2xl mx-auto">{t('contact.description')}</p>
             </div>
           </AnimatedSection>
         </div>
@@ -70,7 +70,7 @@ const Contact = () => {
                     : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
                 }`}
               >
-                Contact Me
+                {t('contact.contactMe')}
               </button>
               <button
                 onClick={() => setActiveTab('review')}
@@ -81,7 +81,7 @@ const Contact = () => {
                 }`}
               >
                 <Star className="h-4 w-4 mr-2" />
-                Reviews
+                {t('contact.reviews')}
               </button>
             </div>
           </div>
@@ -100,7 +100,7 @@ const Contact = () => {
                 <div className="space-y-8">
                   <div>
                     <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-                      Contact Information
+                      {t('contact.contactInformation')}
                     </h2>
                     <div className="space-y-6">
                       {contactInfo.map((info, index) => (
@@ -131,11 +131,11 @@ const Contact = () => {
                   {/* Quick Booking */}
                   <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-6 border border-red-100 dark:border-red-800 transition-colors duration-300">
                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                      Quick Booking
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-300 mb-4">
-                      For faster response, especially for urgent bookings, reach out via WhatsApp.
-                    </p>
+                        {t('contact.quickBooking')}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-300 mb-4">
+                        For faster response, especially for urgent bookings, reach out via WhatsApp.
+                      </p>
                     <a
                       href="https://wa.me/21625740872"
                       target="_blank"
@@ -143,15 +143,15 @@ const Contact = () => {
                       className="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                     >
                       <MessageSquare className="mr-2 h-5 w-5" />
-                      WhatsApp Me
+                      {t('contact.whatsappMe')}
                     </a>
                   </div>
 
                   {/* FAQ */}
                   <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 border border-gray-200 dark:border-gray-600 transition-colors duration-300">
                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                      Frequently Asked Questions
-                    </h3>
+                        Frequently Asked Questions
+                      </h3>
                     <div className="space-y-3 text-sm">
                       <div>
                         <strong className="text-gray-900 dark:text-white">

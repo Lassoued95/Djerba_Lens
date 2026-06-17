@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Camera, MapPin, Heart, Award, Users, ArrowRight } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
@@ -31,6 +32,8 @@ const About = () => {
    
   ];
 
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen pt-16">
       {/* Hero Section */}
@@ -41,21 +44,19 @@ const About = () => {
               <div>
                 <div className="flex items-center mb-6">
                   <MapPin className="h-6 w-6 text-purple-200 mr-2" />
-                  <span className="text-purple-200">Djerba, Tunisia</span>
+                  <span className="text-purple-200">{t('hero.location')}</span>
                 </div>
                 <h1 className="text-5xl font-bold mb-6">
-                  Hi, I'm Mohamed
+                  {t('about.hiIm', { name: 'Mohamed' })}
                 </h1>
                 <p className="text-xl text-purple-100 mb-8 leading-relaxed">
-                  A passionate photographer and creative professional based in beautiful Djerba, Tunisia. 
-                  I specialize in capturing the magic of this incredible island and helping visitors 
-                  create lasting memories of their time here.
+                  {t('about.description1')}
                 </p>
                 <Link
                   to="/contact"
                   className="inline-flex items-center px-8 py-4 bg-white text-purple-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-300"
                 >
-                  Let's Work Together
+                  {t('about.letsWork')}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </div>

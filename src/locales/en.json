@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "home": "Home",
+    "portfolio": "Portfolio",
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "site": {
+    "title": "Djerba Lens"
+  },
+  "hero": {
+    "location": "Djerba, Tunisia",
+    "title1": "Capturing",
+    "title2": "Tunisia's Beauty",
+    "description": "Freelance photographer & creative based in Djerba, Tunisia. Specializing in tourist photography, landscapes, and digital content creation.",
+    "viewWork": "View My Work",
+    "bookSession": "Book a Session"
+  },
+  "featured": {
+    "title": "Featured Work",
+    "description": "A glimpse into the diverse photography services I offer across Djerba and Tunisia"
+  },
+  "about": {
+    "hiIm": "Hi, I'm {{name}}",
+    "description1": "A passionate photographer and creative professional based in beautiful Djerba, Tunisia. I specialize in capturing the magic of this incredible island and helping visitors create lasting memories of their time here.",
+    "description2": "My journey into photography began five years ago when I first picked up a camera to document the stunning landscapes of my homeland, Tunisia.",
+    "letsWork": "Let's Work Together",
+    "myStoryTitle": "My Story"
+  },
+  "contact": {
+    "getInTouch": "Get in Touch",
+    "description": "Ready to capture your perfect moments in Tunisia? Let's discuss your project and create something beautiful together.",
+    "contactMe": "Contact Me",
+    "reviews": "Reviews",
+    "contactInformation": "Contact Information",
+    "quickBooking": "Quick Booking",
+    "whatsappMe": "WhatsApp Me"
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "description": "Explore my photography capturing the essence of Djerba and unforgettable moments.",
+    "viewFull": "View Full Portfolio"
+  },
+  "services": {
+    "title": "Services",
+    "description": "Professional photography and creative services to help you capture memories and promote your business in Djerba",
+    "packagesTitle": "Popular Packages",
+    "packagesDescription": "Choose from our carefully crafted packages or customize your own",
+    "viewAll": "View All Services"
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Photography tips, travel guides, and insights from exploring Tunisia through my lens",
+    "featuredArticle": "Featured Article",
+    "latestArticles": "Latest Articles"
+  },
+  "reviews": {
+    "title": "What Clients Say",
+    "description": "Trusted by tourists and businesses across Tunisia",
+    "leaveReview": "Leave a Review"
+  },
+  "common": {
+    "viewMore": "Read More",
+    "messageSent": "Message Sent!",
+    "thankYou": "Thank you for reaching out. I'll get back to you within 24 hours.",
+    "sendMessage": "Send a Message",
+    "fullName": "Full Name *",
+    "email": "Email Address *",
+    "phone": "Phone Number",
+    "message": "Message *",
+    "send": "Send"
+  }
+}

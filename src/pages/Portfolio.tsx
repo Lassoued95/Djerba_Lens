@@ -41,7 +41,7 @@ const Portfolio = () => {
     { id: 14, category: 'horse', image: '/assets/images/horse/4.jpeg', title: 'Horseback Riding in Djerba', type: 'image' },
     { id: 15, category: 'villas', image: '/assets/images/villas/6.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
     { id: 16, category: 'villas', image: '/assets/images/villas/7.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
-
+    
     // Vertical video for tourists
     { 
       id: 17, 
@@ -51,6 +51,18 @@ const Portfolio = () => {
       type: 'video', 
       videoSrc: '/assets/images/tourists/djerba.mp4'
     },
+
+    // Food photography images (added)
+    { id: 18, category: 'food', image: '/assets/images/food/1.png', title: 'Food Photography', type: 'image' },
+    { id: 19, category: 'food', image: '/assets/images/food/2.png', title: 'Food Photography', type: 'image' },
+    { id: 20, category: 'food', image: '/assets/images/food/3.png', title: 'Food Photography', type: 'image' },
+    { id: 21, category: 'food', image: '/assets/images/food/4.png', title: 'Food Photography', type: 'image' },
+    { id: 22, category: 'food', image: '/assets/images/food/5.png', title: 'Food Photography', type: 'image' },
+    { id: 23, category: 'food', image: '/assets/images/food/6.png', title: 'Food Photography', type: 'image' },
+    { id: 24, category: 'food', image: '/assets/images/food/7.png', title: 'Food Photography', type: 'image' },
+    { id: 25, category: 'food', image: '/assets/images/food/8.png', title: 'Food Photography', type: 'image' },
+    { id: 26, category: 'food', image: '/assets/images/food/9.png', title: 'Food Photography', type: 'image' },
+    { id: 27, category: 'food', image: '/assets/images/food/10.png', title: 'Food Photography', type: 'image' },
   ];
 
 

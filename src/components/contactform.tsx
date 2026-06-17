@@ -4,7 +4,8 @@ import { Send, CheckCircle } from 'lucide-react';
 
 const SERVICE_ID = 'service_f8oz8uk';
 const TEMPLATE_ID = 'template_1x54ays';
-const PUBLIC_KEY = 'Qut9jZ376JK9TYUp6'
+const AUTO_REPLY_TEMPLATE_ID = 'template_fkpc0nf';
+const PUBLIC_KEY = 'Qut9jZ376JK9TYUp6';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -17,36 +18,35 @@ const ContactForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    emailjs.send(SERVICE_ID, TEMPLATE_ID, formData, PUBLIC_KEY)
-      .then(() => {
-        setIsLoading(false);
-        setIsSubmitted(true);
-        setTimeout(() => {
-          setIsSubmitted(false);
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            
-            message: ''
-          });
-        }, 3000);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.error('EmailJS Error:', error);
-        alert('Failed to send the message. Please try again later.');
-      });
+    const templateParams = {
+      from_name: formData.name,
+      reply_to: formData.email,
+      phone: formData.phone,
+      message: formData.message,
+    };
+
+    try {
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+      await emailjs.send(SERVICE_ID, AUTO_REPLY_TEMPLATE_ID, templateParams, PUBLIC_KEY);
+
+      setIsLoading(false);
+      setIsSubmitted(true);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({ name: '', email: '', phone: '', message: '' });
+      }, 3000);
+    } catch (err) {
+      setIsLoading(false);
+      console.error('EmailJS Error:', err);
+      alert('Failed to send the message. Please try again later.');
+    }
   };
 
   return (
@@ -112,7 +112,6 @@ const ContactForm = () => {
                 placeholder="+216 12 345 678"
               />
             </div>
-           
           </div>
 
           <div>

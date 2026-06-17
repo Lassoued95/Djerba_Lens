@@ -122,7 +122,7 @@ const Portfolio = () => {
                 className="group relative overflow-hidden rounded-xl shadow hover:shadow-lg cursor-pointer"
                 onClick={() => {
                   if (item.type === 'image') setSelectedItem({ type: 'image', src: item.image });
-                  else if (item.type === 'video') setSelectedItem({ type: 'video', src: item.videoSrc });
+                  else if (item.type === 'video') setSelectedItem({ type: 'video', src: item.videoSrc ?? '' });
                 }}
               >
                 {item.type === 'image' ? (

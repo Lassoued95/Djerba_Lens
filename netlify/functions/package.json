@@ -1,7 +1,6 @@
 {
   "name": "copilotkit-function",
   "version": "1.0.0",
-  "type": "commonjs",
   "dependencies": {
     "groq-sdk": "^1.2.1"
   }

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Camera,
@@ -78,6 +79,30 @@ const Services = () => {
 ];
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    document.title = 'Photography Services in Djerba – Food, Tourist & Content Creation | DjerbaLens';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute(
+        'content',
+        'Professional photography services in Djerba, Tunisia. Food photography for restaurants & cafes, tourist sessions, landscapes, portraits and digital content creation.'
+      );
+    }
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', 'Photography Services in Djerba – Food, Tourist & Content Creation | DjerbaLens');
+    }
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute(
+        'content',
+        'Professional photography services in Djerba, Tunisia. Food photography for restaurants & cafes, tourist sessions, landscapes, portraits and digital content creation.'
+      );
+    }
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', 'https://djerbalens.space/services');
+  }, []);
 
   return (
     <div className="min-h-screen pt-16">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Camera, MapPin, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
+import JsonLd from '../components/JsonLd';
 import ReviewList from '../components/ReviewList';
 import { useTranslation } from 'react-i18next';
 
@@ -9,12 +10,104 @@ const Home = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { t } = useTranslation();
 
+  const localBusinessSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: 'DjerbaLens',
+    image: 'https://djerbalens.space/og-image.jpg',
+    url: 'https://djerbalens.space',
+    '@id': 'https://djerbalens.space',
+    description: 'Professional photographer in Djerba, Tunisia specializing in food photography for restaurants and cafes, tourist photography, landscapes and digital content creation.',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Djerba',
+      addressRegion: 'Médenine',
+      addressCountry: 'TN'
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 33.8076,
+      longitude: 10.8451
+    },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Photography Services',
+      itemListElement: [
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Food Photography',
+            description: 'Professional food photography for restaurants and cafes in Djerba and Tunisia.'
+          }
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Tourist Photography',
+            description: 'Memorable tourist photography sessions in Djerba, Tunisia.'
+          }
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Landscape Photography',
+            description: 'Stunning landscape and nature photography in Djerba.'
+          }
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Digital Content Creation',
+            description: 'Social media content creation for restaurants, cafes and tourism businesses in Tunisia.'
+          }
+        }
+      ]
+    },
+    sameAs: [
+      'https://www.instagram.com/djerbalens',
+      'https://www.facebook.com/djerbalens'
+    ],
+    priceRange: '$$',
+    openingHours: 'Mo-Su 08:00-20:00'
+  };
+
   const heroImages = [
     'assets/images/bg/bg5.jpeg',
     'assets/images/bg/bg1.jpg',
     'assets/images/bg/bg3.jpg',
     'assets/images/bg/bg4.jpeg'
   ];
+
+  useEffect(() => {
+    document.title = 'DjerbaLens – Professional Photographer in Djerba, Tunisia';
+    document.documentElement.lang = 'en';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute(
+        'content',
+        'Freelance photographer in Djerba, Tunisia. Specializing in tourist photography, food photography for restaurants & cafes, landscapes and digital content creation. Book a session today.'
+      );
+    }
+    const robots = document.querySelector('meta[name="robots"]');
+    if (robots) robots.setAttribute('content', 'index, follow');
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', 'https://djerbalens.space');
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', 'DjerbaLens – Professional Photographer in Djerba, Tunisia');
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute(
+        'content',
+        'Freelance photographer in Djerba, Tunisia. Specializing in tourist photography, food photography for restaurants & cafes, landscapes and digital content creation. Book a session today.'
+      );
+    }
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', 'https://djerbalens.space');
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -36,6 +129,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+      <JsonLd data={localBusinessSchema} />
       {/* Hero Section with Slideshow */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {heroImages.map((image, index) => (

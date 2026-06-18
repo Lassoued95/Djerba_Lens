@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Camera, MapPin, Heart, Award, Users, ArrowRight } from 'lucide-react';
@@ -33,6 +33,30 @@ const About = () => {
   ];
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    document.title = 'About DjerbaLens – Freelance Photographer in Djerba, Tunisia';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute(
+        'content',
+        'Meet the photographer behind DjerbaLens — capturing Tunisia\'s beauty through food photography, tourism, and landscape photography in Djerba.'
+      );
+    }
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', 'About DjerbaLens – Freelance Photographer in Djerba, Tunisia');
+    }
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute(
+        'content',
+        'Meet the photographer behind DjerbaLens — capturing Tunisia\'s beauty through food photography, tourism, and landscape photography in Djerba.'
+      );
+    }
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', 'https://djerbalens.space/about');
+  }, []);
 
   return (
     <div className="min-h-screen pt-16">

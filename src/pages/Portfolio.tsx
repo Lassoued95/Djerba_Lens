@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
+import JsonLd from '../components/JsonLd';
 import { useTranslation } from 'react-i18next';
 
 type PortfolioItem = {
@@ -15,6 +16,15 @@ type PortfolioItem = {
 const Portfolio = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedItem, setSelectedItem] = useState<{ type: 'image' | 'video'; src: string } | null>(null);
+  const { t } = useTranslation();
+
+  const photographerSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Photographer',
+    name: 'DjerbaLens',
+    url: 'https://djerbalens.space/portfolio',
+    description: 'Food photographer for restaurants and cafes, tourist and landscape photographer based in Djerba, Tunisia.'
+  };
 
   const categories = [
     { id: 'all', name: 'All Work' },
@@ -76,10 +86,33 @@ const Portfolio = () => {
     ? portfolioItems
     : portfolioItems.filter(item => item.category === selectedCategory);
 
-  const { t } = useTranslation();
+  useEffect(() => {
+    document.title = 'Photography Portfolio – Food, Landscape & Tourist Photos | DjerbaLens';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute(
+        'content',
+        'Explore DjerbaLens portfolio: food photography for restaurants and cafes, tourist photography, and landscape shots captured in Djerba, Tunisia.'
+      );
+    }
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', 'Photography Portfolio – Food, Landscape & Tourist Photos | DjerbaLens');
+    }
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute(
+        'content',
+        'Explore DjerbaLens portfolio: food photography for restaurants and cafes, tourist photography, and landscape shots captured in Djerba, Tunisia.'
+      );
+    }
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', 'https://djerbalens.space/portfolio');
+  }, []);
 
   return (
     <div className="min-h-screen pt-16">
+      <JsonLd data={photographerSchema} />
       {/* Header */}
       <section className="bg-gradient-to-r from-orange-600 to-orange-800 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

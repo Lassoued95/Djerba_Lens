@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Mail, Phone, MapPin, MessageSquare, Clock, Star, Instagram } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
 import ReviewForm from '../components/ReviewForm';
@@ -9,6 +9,30 @@ import { useTranslation } from 'react-i18next';
 const Contact = () => {
   const [activeTab, setActiveTab] = useState<'contact' | 'review'>('contact');
   const { t } = useTranslation();
+
+  useEffect(() => {
+    document.title = 'Book a Photography Session in Djerba | DjerbaLens';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute(
+        'content',
+        'Ready to elevate your restaurant, cafe, or travel memories? Contact DjerbaLens to book a food or tourist photography session in Djerba, Tunisia.'
+      );
+    }
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', 'Book a Photography Session in Djerba | DjerbaLens');
+    }
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute(
+        'content',
+        'Ready to elevate your restaurant, cafe, or travel memories? Contact DjerbaLens to book a food or tourist photography session in Djerba, Tunisia.'
+      );
+    }
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', 'https://djerbalens.space/contact');
+  }, []);
 
   const contactInfo = [
     {

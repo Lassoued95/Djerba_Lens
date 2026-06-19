@@ -45,20 +45,39 @@ export default function ChatBot() {
 
   const send = async () => {
     if (!input.trim()) return;
+
     const newMessages = [...messages, { role: "user", content: input }];
     setMessages(newMessages);
     setInput("");
     setLoading(true);
 
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: newMessages }),
-    });
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: newMessages }),
+      });
 
-    const data = await res.json();
-    setMessages([...newMessages, { role: "assistant", content: data.text }]);
-    setLoading(false);
+      if (!res.ok) {
+        throw new Error(`Request failed with status ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      if (typeof data?.text !== "string") {
+        throw new Error("Invalid response from chat API");
+      }
+
+      setMessages([...newMessages, { role: "assistant", content: data.text }]);
+    } catch (error) {
+      console.error("Chat error:", error);
+      setMessages([
+        ...newMessages,
+        { role: "assistant", content: "Sorry, something went wrong. Please try again." },
+      ]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

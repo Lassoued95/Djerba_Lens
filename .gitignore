@@ -24,5 +24,6 @@ dist-ssr
 *.sw?
 .env
 
-# Local Netlify folder
+# Deployment artifacts
 .netlify
+

@@ -1,9 +1,0 @@
-[build]
-  publish = "dist"
-  command = "npm run build"
-
-[[redirects]]
-  from = "/api/copilotkit"
-  to = "/.netlify/functions/copilotkit"
-  status = 200
-  force = true

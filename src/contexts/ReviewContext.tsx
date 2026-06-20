@@ -10,8 +10,7 @@ import {
   doc,
   Timestamp
 } from 'firebase/firestore';
-import { db, storage, getUserId } from '../firebaseConfig';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, getUserId } from '../firebaseConfig';
 
 export interface Review {
   id?: string;
@@ -34,6 +33,43 @@ interface ReviewContextType {
 }
 
 const ReviewContext = createContext<ReviewContextType | undefined>(undefined);
+
+// --- Cloudinary config ---
+// Cloud name and unsigned upload preset for DjerbaLens reviews.
+const CLOUDINARY_CLOUD_NAME = 'difrcodnc';
+const CLOUDINARY_UPLOAD_PRESET = 'djerbalens_review';
+const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+
+/**
+ * Uploads an image file directly to Cloudinary using an unsigned upload preset.
+ * Returns the secure (https) URL of the uploaded image.
+ * Throws an error if the upload fails, so callers can catch it.
+ */
+const uploadImageToCloudinary = async (imageFile: File): Promise<string> => {
+  const formData = new FormData();
+  formData.append('file', imageFile);
+  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+  const response = await fetch(CLOUDINARY_UPLOAD_URL, {
+    method: 'POST',
+    body: formData
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    console.error('Cloudinary upload failed:', response.status, errorBody);
+    throw new Error('Image upload failed. Please try again.');
+  }
+
+  const data = await response.json();
+
+  if (!data.secure_url) {
+    console.error('Cloudinary response missing secure_url:', data);
+    throw new Error('Image upload failed. Please try again.');
+  }
+
+  return data.secure_url as string;
+};
 
 export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -106,10 +142,7 @@ export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       let imageUrl = '';
 
       if (imageFile) {
-        const timestamp = Date.now();
-        const imageRef = ref(storage, `reviews/${timestamp}_${imageFile.name}`);
-        const snapshot = await uploadBytes(imageRef, imageFile);
-        imageUrl = await getDownloadURL(snapshot.ref);
+        imageUrl = await uploadImageToCloudinary(imageFile);
       }
 
       await addDoc(collection(db, 'reviews'), {
@@ -137,10 +170,7 @@ export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       let imageUrl = review.imageUrl || '';
 
       if (imageFile) {
-        const timestamp = Date.now();
-        const imageRef = ref(storage, `reviews/${timestamp}_${imageFile.name}`);
-        const snapshot = await uploadBytes(imageRef, imageFile);
-        imageUrl = await getDownloadURL(snapshot.ref);
+        imageUrl = await uploadImageToCloudinary(imageFile);
       }
 
       const updateData: any = { ...updates };

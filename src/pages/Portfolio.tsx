@@ -7,11 +7,32 @@ import { useTranslation } from 'react-i18next';
 type PortfolioItem = {
   id: number;
   category: string;
-  image: string;
+  image: string; // Cloudinary public_id, e.g. "tourists/1"
   title: string;
   type: 'image' | 'video';
-  videoSrc?: string;
+  videoSrc?: string; // Cloudinary public_id for video, e.g. "tourists/djerba"
 };
+
+// ---- Cloudinary config ----
+const CLOUD_NAME = 'difrcodnc';
+const CLOUD_BASE = `https://res.cloudinary.com/${CLOUD_NAME}`;
+
+// Small thumbnail used in the grid (cropped to fill the 64-tall card)
+// publicId should include its extension, e.g. "tourists/1.jpg"
+// NOTE: parameter order matters on this account — crop/size params must come
+// BEFORE f_auto/q_auto, or certain images (confirmed: tourists/1) 404. g_auto
+// is also required for c_fill to resolve reliably here.
+const getThumbUrl = (publicId: string) =>
+  `${CLOUD_BASE}/image/upload/w_500,h_400,c_fill,g_auto,f_auto,q_auto/${publicId}`;
+
+// Larger version used in the lightbox preview
+const getFullUrl = (publicId: string) =>
+  `${CLOUD_BASE}/image/upload/w_1600,f_auto,q_auto/${publicId}`;
+
+// Optimized video delivery (auto format/quality, capped resolution)
+// publicId should include its extension, e.g. "tourists/djerba.mp4"
+const getVideoUrl = (publicId: string) =>
+  `${CLOUD_BASE}/video/upload/w_1080,f_auto,q_auto/${publicId}`;
 
 const Portfolio = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -22,7 +43,7 @@ const Portfolio = () => {
     '@context': 'https://schema.org',
     '@type': 'Photographer',
     name: 'DjerbaLens',
-    url: 'https://djerbalens.space/portfolio',
+    url: 'https://www.djerbalens.space/portfolio',
     description: 'Food photographer for restaurants and cafes, tourist and landscape photographer based in Djerba, Tunisia.'
   };
 
@@ -35,51 +56,55 @@ const Portfolio = () => {
     { id: 'food', name: 'Food Photography' },
   ];
 
+  // IMPORTANT: Cloudinary needs the extension included in the public_id for these
+  // assets (f_auto alone did not resolve without it). Extensions below match the
+  // original local filenames. If you re-check any asset's real public ID in the
+  // Cloudinary Media Library and it differs, update the matching line below.
   const portfolioItems: PortfolioItem[] = [
-    { id: 1, category: 'tourists', image: '/assets/images/tourists/1.jpg', title: 'Couple Photography in Djerba', type: 'image' },
-    { id: 2, category: 'horse', image: '/assets/images/horse/5.jpg', title: 'Camel & Horse Riding in Djerba', type: 'image' },
-    { id: 3, category: 'tourists', image: '/assets/images/tourists/3.jpeg', title: '', type: 'image' },
-    { id: 4, category: 'tourists', image: '/assets/images/tourists/4.jpeg', title: '', type: 'image' },
-    { id: 5, category: 'tourists', image: '/assets/images/tourists/5.jpeg', title: '', type: 'image' },
-    { id: 6, category: 'tourists', image: '/assets/images/tourists/6.jpeg', title: '', type: 'image' },
-    { id: 7, category: 'horse', image: '/assets/images/horse/1.jpg', title: 'Traditional Tunisian Market', type: 'image' },
-    { id: 8, category: 'villas', image: '/assets/images/villas/1.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
-    { id: 9, category: 'horse', image: '/assets/images/horse/3.jpg', title: 'Artisan at Work', type: 'image' },
-    { id: 10, category: 'villas', image: '/assets/images/villas/2.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
-    { id: 11, category: 'tourists', image: '/assets/images/tourists/1.jpg', title: 'Couple Photography in Djerba', type: 'image' },
-    { id: 13, category: 'villas', image: '/assets/images/villas/5.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
-    { id: 14, category: 'horse', image: '/assets/images/horse/4.jpeg', title: 'Horseback Riding in Djerba', type: 'image' },
-    { id: 15, category: 'villas', image: '/assets/images/villas/6.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
-    { id: 16, category: 'villas', image: '/assets/images/villas/7.JPG', title: 'Luxury Villas in Djerba', type: 'image' },
-    
+    { id: 1, category: 'tourists', image: 'tourists/1', title: 'Couple Photography in Djerba', type: 'image' },
+    { id: 2, category: 'horse', image: 'horse/5', title: 'Camel & Horse Riding in Djerba', type: 'image' },
+    { id: 3, category: 'tourists', image: 'tourists/3', title: '', type: 'image' },
+    { id: 4, category: 'tourists', image: 'tourists/4', title: '', type: 'image' },
+    { id: 5, category: 'tourists', image: 'tourists/5', title: '', type: 'image' },
+    { id: 6, category: 'tourists', image: 'tourists/6', title: '', type: 'image' },
+    { id: 7, category: 'horse', image: 'horse/1', title: 'Traditional Tunisian Market', type: 'image' },
+    { id: 8, category: 'villas', image: 'villas/1', title: 'Luxury Villas in Djerba', type: 'image' },
+    { id: 9, category: 'horse', image: 'horse/3', title: 'Artisan at Work', type: 'image' },
+    { id: 10, category: 'villas', image: 'villas/2', title: 'Luxury Villas in Djerba', type: 'image' },
+    { id: 11, category: 'tourists', image: 'tourists/1', title: 'Couple Photography in Djerba', type: 'image' },
+    { id: 13, category: 'villas', image: 'villas/5', title: 'Luxury Villas in Djerba', type: 'image' },
+    { id: 14, category: 'horse', image: 'horse/4', title: 'Horseback Riding in Djerba', type: 'image' },
+    { id: 15, category: 'villas', image: 'villas/6', title: 'Luxury Villas in Djerba', type: 'image' },
+    { id: 16, category: 'villas', image: 'villas/7', title: 'Luxury Villas in Djerba', type: 'image' },
+
     // Vertical video for tourists
-    { 
-      id: 17, 
-      category: 'tourists', 
-      image: '/assets/images/tourists/cover-djerba.jpg',
-      title: 'Explore Djerba - Vertical Video', 
-      type: 'video', 
-      videoSrc: '/assets/images/tourists/djerba.mp4'
+    {
+      id: 17,
+      category: 'tourists',
+      image: 'tourists/2',
+      title: 'Explore Djerba - Vertical Video',
+      type: 'video',
+      videoSrc: 'tourists/djerba'
     },
 
-    // Food photography images (added)
-    { id: 18, category: 'food', image: '/assets/images/food/1.png', title: 'Food Photography', type: 'image' },
-    { id: 19, category: 'food', image: '/assets/images/food/2.png', title: 'Food Photography', type: 'image' },
-    { id: 20, category: 'food', image: '/assets/images/food/3.png', title: 'Food Photography', type: 'image' },
-    { id: 21, category: 'food', image: '/assets/images/food/4.png', title: 'Food Photography', type: 'image' },
-    { id: 22, category: 'food', image: '/assets/images/food/5.png', title: 'Food Photography', type: 'image' },
-    { id: 23, category: 'food', image: '/assets/images/food/6.png', title: 'Food Photography', type: 'image' },
-    { id: 24, category: 'food', image: '/assets/images/food/7.png', title: 'Food Photography', type: 'image' },
-    { id: 25, category: 'food', image: '/assets/images/food/8.png', title: 'Food Photography', type: 'image' },
-    { id: 26, category: 'food', image: '/assets/images/food/9.png', title: 'Food Photography', type: 'image' },
-    { id: 27, category: 'food', image: '/assets/images/food/10.png', title: 'Food Photography', type: 'image' },
+    // Food photography images
+    { id: 18, category: 'food', image: 'food/1', title: 'Food Photography', type: 'image' },
+    { id: 19, category: 'food', image: 'food/2', title: 'Food Photography', type: 'image' },
+    { id: 20, category: 'food', image: 'food/3', title: 'Food Photography', type: 'image' },
+    { id: 21, category: 'food', image: 'food/4', title: 'Food Photography', type: 'image' },
+    { id: 22, category: 'food', image: 'food/5', title: 'Food Photography', type: 'image' },
+    { id: 23, category: 'food', image: 'food/6', title: 'Food Photography', type: 'image' },
+    { id: 24, category: 'food', image: 'food/7', title: 'Food Photography', type: 'image' },
+    { id: 25, category: 'food', image: 'food/8', title: 'Food Photography', type: 'image' },
+    { id: 26, category: 'food', image: 'food/9', title: 'Food Photography', type: 'image' },
+    { id: 27, category: 'food', image: 'food/10', title: 'Food Photography', type: 'image' },
   ];
 
-
   const videoShowcase = {
-    src: '/assets/images/villas/vd.mp4',
+    src: 'villas/vd',
     title: 'Djerba Villa Video Tour',
-    description: 'Take a cinematic walkthrough of one of Djerba’s most luxurious villas.',
+    description: 'Take a cinematic walkthrough of one of Djerba\u2019s most luxurious villas.',
+    poster: 'villas/1',
   };
 
   const filteredItems = selectedCategory === 'all'
@@ -107,7 +132,7 @@ const Portfolio = () => {
       );
     }
     const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', 'https://djerbalens.space/portfolio');
+    if (canonical) canonical.setAttribute('href', 'https://www.djerbalens.space/portfolio');
   }, []);
 
   return (
@@ -116,7 +141,7 @@ const Portfolio = () => {
       {/* Header */}
       <section className="bg-gradient-to-r from-orange-600 to-orange-800 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <AnimatedSection>
+          <AnimatedSection>
             <h1 className="text-5xl font-bold mb-4">{t('portfolio.title')}</h1>
             <p className="text-xl max-w-2xl mx-auto text-orange-100">{t('portfolio.description')}</p>
           </AnimatedSection>
@@ -160,19 +185,25 @@ const Portfolio = () => {
               >
                 {item.type === 'image' ? (
                   <img
-                    src={item.image}
-                    alt={item.title}
+                    src={getThumbUrl(item.image)}
+                    alt={item.title || 'DjerbaLens photography'}
+                    loading="lazy"
                     className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 ) : (
-                  <div className="w-full h-64 flex items-center justify-center bg-black rounded-xl overflow-hidden">
-                    <video
-                      src={item.videoSrc}
-                      className="h-full object-cover"
-                      muted
-                      autoPlay
-                      loop
+                  <div className="w-full h-64 relative overflow-hidden rounded-xl bg-black">
+                    {/* Static poster image instead of autoplaying every grid video — much lighter */}
+                    <img
+                      src={getThumbUrl(item.image)}
+                      alt={item.title || 'Video preview'}
+                      loading="lazy"
+                      className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
                     />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                      <div className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center">
+                        <div className="w-0 h-0 border-y-8 border-y-transparent border-l-[14px] border-l-orange-600 ml-1" />
+                      </div>
+                    </div>
                   </div>
                 )}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
@@ -194,10 +225,11 @@ const Portfolio = () => {
             </p>
             <div className="rounded-xl overflow-hidden shadow-lg max-w-4xl mx-auto">
               <video
-                src={videoShowcase.src}
+                src={getVideoUrl(videoShowcase.src)}
                 controls
+                preload="none"
                 className="w-full h-auto"
-                poster="/assets/images/villas/1.jpg"
+                poster={getThumbUrl(videoShowcase.poster)}
               />
             </div>
           </AnimatedSection>
@@ -217,13 +249,13 @@ const Portfolio = () => {
 
             {selectedItem.type === 'image' ? (
               <img
-                src={selectedItem.src}
+                src={getFullUrl(selectedItem.src)}
                 alt="Preview"
                 className="w-full h-full object-contain rounded-lg"
               />
             ) : (
               <video
-                src={selectedItem.src}
+                src={getVideoUrl(selectedItem.src)}
                 controls
                 className="w-full h-full object-cover rounded-lg"
                 autoPlay

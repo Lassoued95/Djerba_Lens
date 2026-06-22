@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Mail, Phone, MapPin, MessageSquare, Clock, Star, Instagram } from 'lucide-react';
+import { Mail, Phone, MapPin, MessageSquare, Clock, Star, Instagram, Globe } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
 import ReviewForm from '../components/ReviewForm';
 import ReviewList from '../components/ReviewList';
@@ -14,22 +14,16 @@ const Contact = () => {
     document.title = 'Book a Photography Session in Djerba | DjerbaLens';
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute(
-        'content',
+      metaDescription.setAttribute('content',
         'Ready to elevate your restaurant, cafe, or travel memories? Contact DjerbaLens to book a food or tourist photography session in Djerba, Tunisia.'
       );
     }
     const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) {
-      ogTitle.setAttribute('content', 'Book a Photography Session in Djerba | DjerbaLens');
-    }
+    if (ogTitle) ogTitle.setAttribute('content', 'Book a Photography Session in Djerba | DjerbaLens');
     const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) {
-      ogDescription.setAttribute(
-        'content',
-        'Ready to elevate your restaurant, cafe, or travel memories? Contact DjerbaLens to book a food or tourist photography session in Djerba, Tunisia.'
-      );
-    }
+    if (ogDescription) ogDescription.setAttribute('content',
+      'Ready to elevate your restaurant, cafe, or travel memories? Contact DjerbaLens to book a food or tourist photography session in Djerba, Tunisia.'
+    );
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) canonical.setAttribute('href', 'https://djerbalens.space/contact');
   }, []);
@@ -37,38 +31,51 @@ const Contact = () => {
   const contactInfo = [
     {
       icon: Mail,
-      title: 'Email',
+      title: t('contact.email'),
       value: 'djerbatnsphoto@gmail.com',
       link: 'mailto:djerbatnsphoto@gmail.com'
     },
     {
       icon: Phone,
-      title: 'Phone / WhatsApp',
+      title: t('contact.phoneWhatsapp'),
       value: '+216 25 740 872',
       link: 'tel:+21625740872'
     },
     {
       icon: Instagram,
       title: 'Instagram',
-      value: '@djerbatns',
-      link: 'https://www.instagram.com/djerbatns'
+      value: '@djerbalens',
+      link: 'https://www.instagram.com/djerbalens'
+    },
+    {
+      icon: Globe,
+      title: 'TikTok',
+      value: 'DjerbaLens (@djerbalens)',
+      link: 'https://www.tiktok.com/@djerbalens'
+    },
+    {
+      icon: Globe,
+      title: 'Facebook',
+      value: 'DjerbaLens',
+      link: 'https://www.facebook.com/profile.php?id=61591247780029'
     },
     {
       icon: MapPin,
-      title: 'Location',
-      value: 'Djerba, Tunisia',
+      title: t('contact.location'),
+      value: t('contact.locationValue'),
       link: null
     },
     {
       icon: Clock,
-      title: 'Response Time',
-      value: 'Within 24 hours',
+      title: t('contact.responseTime'),
+      value: t('contact.responseTimeValue'),
       link: null
     }
   ];
 
   return (
     <div className="min-h-screen pt-16 bg-white dark:bg-gray-900 transition-colors duration-300">
+
       {/* Header */}
       <section className="bg-gradient-to-r from-red-600 to-red-800 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -133,7 +140,9 @@ const Contact = () => {
                             <info.icon className="h-6 w-6 text-red-600 dark:text-red-400" />
                           </div>
                           <div>
-                            <div className="text-lg font-semibold text-gray-900 dark:text-white">{info.title}</div>
+                            <div className="text-lg font-semibold text-gray-900 dark:text-white">
+                              {info.title}
+                            </div>
                             {info.link ? (
                               <a
                                 href={info.link}
@@ -144,7 +153,9 @@ const Contact = () => {
                                 {info.value}
                               </a>
                             ) : (
-                              <span className="text-gray-700 dark:text-gray-300 break-all">{info.value}</span>
+                              <span className="text-gray-700 dark:text-gray-300 break-all">
+                                {info.value}
+                              </span>
                             )}
                           </div>
                         </div>
@@ -155,11 +166,11 @@ const Contact = () => {
                   {/* Quick Booking */}
                   <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-6 border border-red-100 dark:border-red-800 transition-colors duration-300">
                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                        {t('contact.quickBooking')}
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-300 mb-4">
-                        For faster response, especially for urgent bookings, reach out via WhatsApp.
-                      </p>
+                      {t('contact.quickBooking')}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 mb-4">
+                      {t('contact.quickBookingDesc')}
+                    </p>
                     <a
                       href="https://wa.me/21625740872"
                       target="_blank"
@@ -174,32 +185,20 @@ const Contact = () => {
                   {/* FAQ */}
                   <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 border border-gray-200 dark:border-gray-600 transition-colors duration-300">
                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                        Frequently Asked Questions
-                      </h3>
+                      {t('contact.faqTitle')}
+                    </h3>
                     <div className="space-y-3 text-sm">
                       <div>
-                        <strong className="text-gray-900 dark:text-white">
-                          How far in advance should I book?
-                        </strong>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          I recommend booking at least 1-2 weeks in advance, especially during peak tourist season.
-                        </p>
+                        <strong className="text-gray-900 dark:text-white">{t('contact.faq.q1')}</strong>
+                        <p className="text-gray-600 dark:text-gray-300">{t('contact.faq.a1')}</p>
                       </div>
                       <div>
-                        <strong className="text-gray-900 dark:text-white">
-                          Do you travel outside of Djerba?
-                        </strong>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          Yes, I'm available for shoots across Tunisia. Travel fees may apply for distant locations.
-                        </p>
+                        <strong className="text-gray-900 dark:text-white">{t('contact.faq.q2')}</strong>
+                        <p className="text-gray-600 dark:text-gray-300">{t('contact.faq.a2')}</p>
                       </div>
                       <div>
-                        <strong className="text-gray-900 dark:text-white">
-                          What's included in the photo packages?
-                        </strong>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          All packages include professional editing, high-resolution files, and an online gallery for sharing.
-                        </p>
+                        <strong className="text-gray-900 dark:text-white">{t('contact.faq.q3')}</strong>
+                        <p className="text-gray-600 dark:text-gray-300">{t('contact.faq.a3')}</p>
                       </div>
                     </div>
                   </div>
@@ -218,7 +217,7 @@ const Contact = () => {
               <AnimatedSection>
                 <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-8 transition-colors duration-300">
                   <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-                    Share Your Experience
+                    {t('contact.shareExperience')}
                   </h2>
                   <ReviewForm />
                 </div>
@@ -226,7 +225,7 @@ const Contact = () => {
               <AnimatedSection delay={200}>
                 <div>
                   <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-                    Client Reviews
+                    {t('contact.clientReviews')}
                   </h2>
                   <ReviewList />
                 </div>
@@ -235,8 +234,12 @@ const Contact = () => {
           </div>
         </section>
       )}
-    </div>
+
+    </div>  
+
   );
+
 };
 
-export default Contact;
+
+export default Contact; 

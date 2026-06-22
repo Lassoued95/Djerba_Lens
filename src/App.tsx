@@ -8,6 +8,7 @@ import ChatBot from './components/ChatBot';
 import Home from './pages/Home';
 import Portfolio from './pages/Portfolio';
 import Services from './pages/Services';
+import Blog from './pages/Blog';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import ReviewList from './components/ReviewList';
@@ -26,6 +27,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/services" element={<Services />} />
+              <Route path="/blog" element={<Blog />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/reviews" element={<ReviewList />} />

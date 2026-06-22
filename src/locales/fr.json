@@ -3,6 +3,7 @@
     "home": "Accueil",
     "portfolio": "Portfolio",
     "services": "Services",
+    "blog": "Blog",
     "about": "À propos",
     "contact": "Contact"
   },
@@ -42,12 +43,66 @@
     "description": "Explorez ma photographie capturant l'essence de Djerba et des moments inoubliables.",
     "viewFull": "Voir le portfolio complet"
   },
-  "services": {
+ "services": {
     "title": "Services",
     "description": "Services de photographie professionnelle et créative pour capturer des souvenirs et promouvoir votre entreprise à Djerba",
     "packagesTitle": "Forfaits populaires",
     "packagesDescription": "Choisissez parmi nos forfaits soigneusement conçus ou personnalisez le vôtre",
-    "viewAll": "Voir tous les services"
+    "viewAll": "Voir tous les services",
+
+    "touristShoot": {
+      "title": "Séances photo touristiques",
+      "description": "Séances photo professionnelles pour couples, familles et groupes à Djerba",
+      "duration": "1-2 heures",
+      "features": ["30-50 photos retouchées", "Plusieurs lieux à Djerba", "Éclairage professionnel", "Fichiers haute résolution"]
+    },
+    "promoVideo": {
+      "title": "Vidéos promotionnelles",
+      "description": "Contenu vidéo de haute qualité pour les entreprises locales à Djerba",
+      "duration": "1-3 jours",
+      "features": ["Vidéographie professionnelle", "Étalonnage des couleurs & montage", "Aide à l'écriture du script"]
+    },
+    "photoEditing": {
+      "title": "Retouche & édition photo",
+      "description": "Post-traitement professionnel pour sublimer vos photos",
+      "duration": "24-48 heures",
+      "features": ["Correction des couleurs", "Ajustement de l'exposition", "Suppression d'arrière-plan", "Retouche peau", "Effets artistiques"]
+    },
+
+    "packages": {
+      "touristEssential": {
+        "name": "Essentiel Touriste",
+        "description": "Parfait pour les couples et petits groupes à Djerba",
+        "features": ["Séance photo de 2h", "40 photos retouchées", "2 lieux à Djerba", "Galerie en ligne", "Optimisé mobile"]
+      },
+      "foodShooting": {
+        "name": "Shooting Culinaire",
+        "description": "Photographie culinaire professionnelle pour restaurants, cafés et traiteurs à Djerba",
+        "features": ["Jusqu'à 20 photos de plats mis en scène", "Éclairage professionnel", "Étalonnage & retouche", "Formats pour menu & réseaux sociaux", "Livraison sous 48h"]
+      },
+      "villaShooting": {
+        "name": "Shooting Villa",
+        "description": "Pack photo & vidéo professionnel pour locations et immobilier à Djerba",
+        "features": ["Photos intérieur & extérieur", "Grands angles et détails", "Visite vidéo", "Étalonnage et montage"]
+      },
+      "mostPopular": "Le plus populaire",
+      "bookNow": "Réserver"
+    },
+
+    "location": {
+      "title": "Basé à Djerba – Services locaux uniquement",
+      "description": "Toutes les séances et services sont exclusivement proposés à Djerba. De la vieille médina à la plage, je vous aide à capturer des moments intemporels sur la plus belle île de Tunisie.",
+      "place": "Lieu : Île de Djerba uniquement",
+      "specialized": "Spécialisé dans les prises de vue locales",
+      "response": "Réponse rapide sous 24 heures"
+    },
+
+    "cta": {
+      "title": "Prêt à réserver votre séance ?",
+      "description": "Créons quelque chose de beau ensemble. Contactez-moi maintenant pour discuter de votre projet !",
+      "getInTouch": "Prendre contact",
+      "whatsapp": "WhatsApp"
+    }
   },
   "blog": {
     "title": "Blog",

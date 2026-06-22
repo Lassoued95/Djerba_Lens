@@ -21,7 +21,7 @@ const About = () => {
     },
     {
       icon: Camera,
-      number: '50+',
+      number: '20+',
       text: 'Photo Sessions'
     },
     {
@@ -61,7 +61,7 @@ const About = () => {
   return (
     <div className="min-h-screen pt-16">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-r from-purple-600 to-purple-800 text-white">
+      <section className="py-20 bg-gradient-to-r from-red-600 to-red-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <AnimatedSection>
@@ -78,7 +78,7 @@ const About = () => {
                 </p>
                 <Link
                   to="/contact"
-                  className="inline-flex items-center px-8 py-4 bg-white text-purple-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-300"
+                  className="inline-flex items-center px-8 py-4 bg-white text-red-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-300"
                 >
                   {t('about.letsWork')}
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -156,7 +156,7 @@ const About = () => {
           key={index}
           className="flex items-center space-x-4 bg-gray-100 dark:bg-gray-700 p-4 rounded-lg shadow-sm hover:shadow-md transition-all"
         >
-          <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center">
+          <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
             <skill.icon className="h-5 w-5 text-white" />
           </div>
           <span className="text-lg font-medium text-gray-800 dark:text-gray-100">
@@ -172,7 +172,7 @@ const About = () => {
               <div className="grid grid-cols-2 gap-8">
                 {achievements.map((achievement, index) => (
                   <div key={index} className="text-center">
-                    <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
                       <achievement.icon className="h-8 w-8 text-white" />
                     </div>
                     <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -219,27 +219,27 @@ const About = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-purple-600">
+      <section className="py-20 bg-red-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <AnimatedSection>
             <h2 className="text-4xl font-bold text-white mb-6">
               Let's Create Something Beautiful Together
             </h2>
-            <p className="text-xl text-purple-100 mb-8">
+            <p className="text-xl text-red-100 mb-8">
               Whether you're visiting Tunisia for the first time or you're a local business 
               looking to showcase your services, I'd love to help tell your story through photography.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/portfolio"
-                className="inline-flex items-center px-8 py-4 bg-white text-purple-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-300"
+                className="inline-flex items-center px-8 py-4 bg-white text-red-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-300"
               >
                 View My Work
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
               <Link
                 to="/contact"
-                className="inline-flex items-center px-8 py-4 bg-purple-700 text-white font-semibold rounded-lg hover:bg-purple-800 transition-colors duration-300"
+                className="inline-flex items-center px-8 py-4 bg-red-700 text-white font-semibold rounded-lg hover:bg-red-800 transition-colors duration-300"
               >
                 Get in Touch
                 <ArrowRight className="ml-2 h-5 w-5" />

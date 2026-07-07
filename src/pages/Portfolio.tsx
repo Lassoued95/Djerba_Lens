@@ -91,12 +91,14 @@ const Portfolio = () => {
     { id: 7, category: 'horse', image: 'horse/1', title: 'Traditional Tunisian Market', type: 'image' },
     { id: 8, category: 'villas', image: 'villas/1', title: 'Luxury Villas in Djerba', type: 'image' },
     { id: 9, category: 'horse', image: 'horse/3', title: 'Artisan at Work', type: 'image' },
+
     { id: 10, category: 'villas', image: 'villas/2', title: 'Luxury Villas in Djerba', type: 'image' },
     { id: 11, category: 'tourists', image: 'tourists/1', title: 'Couple Photography in Djerba', type: 'image' },
     { id: 13, category: 'villas', image: 'villas/5', title: 'Luxury Villas in Djerba', type: 'image' },
     { id: 14, category: 'horse', image: 'horse/4', title: 'Horseback Riding in Djerba', type: 'image' },
     { id: 15, category: 'villas', image: 'villas/6', title: 'Luxury Villas in Djerba', type: 'image' },
     { id: 16, category: 'villas', image: 'villas/7', title: 'Luxury Villas in Djerba', type: 'image' },
+
 
     // Vertical video for tourists
     {
@@ -119,6 +121,14 @@ const Portfolio = () => {
     { id: 25, category: 'food', image: 'food/8', title: 'Food Photography', type: 'image' },
     { id: 26, category: 'food', image: 'food/9', title: 'Food Photography', type: 'image' },
     { id: 27, category: 'food', image: 'food/10', title: 'Food Photography', type: 'image' },
+
+
+    { id: 28, category: 'tourists', image: 'tourists/7', title: '', type: 'image' },
+    { id: 29, category: 'tourists', image: 'tourists/8', title: '', type: 'image' },
+    { id: 30, category: 'tourists', image: 'tourists/9', title: '', type: 'image' },
+    { id: 31, category: 'tourists', image: 'tourists/10', title: '', type: 'image' },
+    { id: 32, category: 'tourists', image: 'tourists/11', title: '', type: 'image' },
+    { id: 33, category: 'tourists', image: 'tourists/12', title: '', type: 'image' },
   ];
 
   const videoShowcase = {

@@ -12,7 +12,7 @@ const LanguageSwitcher: React.FC = () => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  const current = languages.find((l) => l.code === i18n.language) || languages[0];
+  const current = languages.find((l) => l.code === i18n.language.split('-')[0]) || languages[1];
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);

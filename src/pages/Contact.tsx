@@ -11,21 +11,20 @@ const Contact = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    document.title = 'Book a Photography Session in Djerba | DjerbaLens';
+    const title = 'Contacter votre photographe à Djerba | DjerbaLens';
+    const description =
+      'Contactez DjerbaLens pour réserver une séance photo à Djerba, pour vos souvenirs, votre hôtel, villa ou restaurant.';
+    document.title = title;
     const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content',
-        'Ready to elevate your restaurant, cafe, or travel memories? Contact DjerbaLens to book a food or tourist photography session in Djerba, Tunisia.'
-      );
-    }
+    if (metaDescription) metaDescription.setAttribute('content', description);
     const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', 'Book a Photography Session in Djerba | DjerbaLens');
+    if (ogTitle) ogTitle.setAttribute('content', title);
     const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) ogDescription.setAttribute('content',
-      'Ready to elevate your restaurant, cafe, or travel memories? Contact DjerbaLens to book a food or tourist photography session in Djerba, Tunisia.'
-    );
+    if (ogDescription) ogDescription.setAttribute('content', description);
     const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', 'https://djerbalens.space/contact');
+    if (canonical) canonical.setAttribute('href', 'https://www.djerbalens.com/contact');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', 'https://www.djerbalens.com/contact');
   }, []);
 
   const contactInfo = [

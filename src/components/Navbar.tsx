@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
@@ -43,7 +43,9 @@ const Navbar = () => {
             <div className="bg-orange-100 dark:bg-orange-700 p-2 rounded-full shadow-md hover:shadow-xl transition-all duration-500 transform hover:scale-110 hover:rotate-3">
               <img
                 src="/assets/images/bg/logo.png"
-                alt="Djerba Lens Logo"
+                alt="Logo DjerbaLens, photographe à Djerba"
+                width={1024}
+                height={1024}
                 className="h-10 w-10 object-contain rounded-full"
               />
             </div>

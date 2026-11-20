@@ -8,6 +8,18 @@ import { useTranslation } from 'react-i18next';
 
 const Services = () => {
   const { t } = useTranslation();
+  const getFeatures = (key: string): string[] => {
+    const features = t(key, { returnObjects: true });
+    if (!Array.isArray(features)) {
+      throw new Error(`Expected a translated feature list for "${key}"`);
+    }
+    return features.map((feature): string => {
+      if (typeof feature !== 'string') {
+        throw new Error(`Expected string entries in the translated feature list for "${key}"`);
+      }
+      return feature;
+    });
+  };
 
   const services = [
     {
@@ -15,21 +27,21 @@ const Services = () => {
       title: t('services.touristShoot.title'),
       description: t('services.touristShoot.description'),
       duration: t('services.touristShoot.duration'),
-      features: t('services.touristShoot.features', { returnObjects: true }),
+      features: getFeatures('services.touristShoot.features'),
     },
     {
       icon: Video,
       title: t('services.promoVideo.title'),
       description: t('services.promoVideo.description'),
       duration: t('services.promoVideo.duration'),
-      features: t('services.promoVideo.features', { returnObjects: true }),
+      features: getFeatures('services.promoVideo.features'),
     },
     {
       icon: Edit,
       title: t('services.photoEditing.title'),
       description: t('services.photoEditing.description'),
       duration: t('services.photoEditing.duration'),
-      features: t('services.photoEditing.features', { returnObjects: true }),
+      features: getFeatures('services.photoEditing.features'),
     },
   ];
 
@@ -37,36 +49,35 @@ const Services = () => {
     {
       name: t('services.packages.touristEssential.name'),
       description: t('services.packages.touristEssential.description'),
-      features: t('services.packages.touristEssential.features', { returnObjects: true }),
+      features: getFeatures('services.packages.touristEssential.features'),
     },
     {
       name: t('services.packages.foodShooting.name'),
       description: t('services.packages.foodShooting.description'),
-      features: t('services.packages.foodShooting.features', { returnObjects: true }),
+      features: getFeatures('services.packages.foodShooting.features'),
     },
     {
       name: t('services.packages.villaShooting.name'),
       description: t('services.packages.villaShooting.description'),
-      features: t('services.packages.villaShooting.features', { returnObjects: true }),
+      features: getFeatures('services.packages.villaShooting.features'),
     },
   ];
 
   useEffect(() => {
-    document.title = 'Photography Services in Djerba – Food, Tourist & Content Creation | DjerbaLens';
+    const title = 'Services photo à Djerba | DjerbaLens';
+    const description =
+      'Séances photo à Djerba pour couples et familles, hôtels et villas, photographie culinaire et création de contenu photo/vidéo.';
+    document.title = title;
     const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content',
-        'Professional photography services in Djerba, Tunisia. Food photography for restaurants & cafes, tourist sessions, landscapes, portraits and digital content creation.'
-      );
-    }
+    if (metaDescription) metaDescription.setAttribute('content', description);
     const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', 'Photography Services in Djerba – Food, Tourist & Content Creation | DjerbaLens');
+    if (ogTitle) ogTitle.setAttribute('content', title);
     const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) ogDescription.setAttribute('content',
-      'Professional photography services in Djerba, Tunisia. Food photography for restaurants & cafes, tourist sessions, landscapes, portraits and digital content creation.'
-    );
+    if (ogDescription) ogDescription.setAttribute('content', description);
     const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', 'https://djerbalens.space/services');
+    if (canonical) canonical.setAttribute('href', 'https://www.djerbalens.com/services');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', 'https://www.djerbalens.com/services');
   }, []);
 
   return (
@@ -98,9 +109,9 @@ const Services = () => {
                       </div>
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                         {service.title}
-                      </h3>
+                      </h2>
                       <p className="text-gray-600 dark:text-gray-300 mb-4">
                         {service.description}
                       </p>
@@ -210,7 +221,10 @@ const Services = () => {
               <div className="relative">
                 <img
                   src="https://images.pexels.com/photos/1320684/pexels-photo-1320684.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop"
-                  alt="Djerba Photography"
+                  alt="Séance photo professionnelle à Djerba"
+                  width={800}
+                  height={600}
+                  loading="lazy"
                   className="rounded-lg shadow-lg"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-lg"></div>

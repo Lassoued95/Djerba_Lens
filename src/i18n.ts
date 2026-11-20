@@ -14,10 +14,10 @@ i18n
       fr: { translation: fr },
       ar: { translation: ar },
     },
-    fallbackLng: 'en',
+    fallbackLng: 'fr',
     debug: false,
     interpolation: { escapeValue: false },
-    detection: { order: ['localStorage', 'navigator'], caches: ['localStorage'] },
+    detection: { order: ['localStorage'], caches: ['localStorage'] },
   });
 
 i18n.on('languageChanged', (lng) => {

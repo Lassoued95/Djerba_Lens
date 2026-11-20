@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Camera, MapPin, Star } from 'lucide-react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import AnimatedSection from '../components/AnimatedSection';
-import JsonLd from '../components/JsonLd';
 import ReviewList from '../components/ReviewList';
 import { useTranslation } from 'react-i18next';
 
@@ -14,22 +13,30 @@ const flythroughLayers = [
   {
     image: '/assets/images/bg/bg5.jpeg',
     depth: 1,
-    label: 'Djerba Coastline',
+    label: 'Littoral de Djerba',
+    width: 1280,
+    height: 853,
   },
   {
     image: '/assets/images/bg/bg1.jpg',
     depth: 2,
-    label: 'Houmt Souk',
+    label: 'Houmt Souk à Djerba',
+    width: 1513,
+    height: 1183,
   },
   {
     image: '/assets/images/bg/bg3.jpg',
     depth: 3,
-    label: 'Golden Dunes',
+    label: 'Dunes dorées de Djerba',
+    width: 1280,
+    height: 853,
   },
   {
     image: '/assets/images/bg/bg4.jpeg',
     depth: 4,
-    label: 'Sunset Rides',
+    label: 'Balade au coucher du soleil à Djerba',
+    width: 1280,
+    height: 853,
   },
 ];
 
@@ -83,7 +90,6 @@ const CinematicHero = () => {
             progress={smoothProgress}
             fadeIn={fadeIn}
             activeStart={start}
-            activeEnd={end}
             fadeOutStart={fadeOutStart}
             fadeOutEnd={fadeOutEnd}
           />;
@@ -158,11 +164,10 @@ const CinematicHero = () => {
 };
 
 interface FlythroughLayerProps {
-  layer: { image: string; depth: number; label: string };
+  layer: { image: string; depth: number; label: string; width: number; height: number };
   progress: ReturnType<typeof useSpring>;
   fadeIn: number;
   activeStart: number;
-  activeEnd: number;
   fadeOutStart: number;
   fadeOutEnd: number;
 }
@@ -172,7 +177,6 @@ const FlythroughLayer: React.FC<FlythroughLayerProps> = ({
   progress,
   fadeIn,
   activeStart,
-  activeEnd,
   fadeOutStart,
   fadeOutEnd,
 }) => {
@@ -199,10 +203,15 @@ const FlythroughLayer: React.FC<FlythroughLayerProps> = ({
       className="absolute inset-0 will-change-transform"
       style={{ opacity }}
     >
-      <motion.div
-        className="absolute inset-0 bg-cover bg-center"
+      <motion.img
+        src={layer.image}
+        alt={layer.label}
+        width={layer.width}
+        height={layer.height}
+        loading={layer.image === flythroughLayers[0].image ? 'eager' : 'lazy'}
+        fetchPriority={layer.image === flythroughLayers[0].image ? 'high' : 'auto'}
+        className="absolute inset-0 h-full w-full object-cover object-center"
         style={{
-          backgroundImage: `url('${layer.image}')`,
           scale,
           y,
         }}
@@ -214,100 +223,25 @@ const FlythroughLayer: React.FC<FlythroughLayerProps> = ({
 const Home = () => {
   const { t } = useTranslation();
 
-  const localBusinessSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    name: 'DjerbaLens',
-    image: 'https://djerbalens.space/og-image.jpg',
-    url: 'https://djerbalens.space',
-    '@id': 'https://djerbalens.space',
-    description:
-      'Professional photographer in Djerba, Tunisia specializing in food photography for restaurants and cafes, tourist photography, landscapes and digital content creation.',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Djerba',
-      addressRegion: 'Médenine',
-      addressCountry: 'TN',
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: 33.8076,
-      longitude: 10.8451,
-    },
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Photography Services',
-      itemListElement: [
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Food Photography',
-            description: 'Professional food photography for restaurants and cafes in Djerba and Tunisia.',
-          },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Tourist Photography',
-            description: 'Memorable tourist photography sessions in Djerba, Tunisia.',
-          },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Landscape Photography',
-            description: 'Stunning landscape and nature photography in Djerba.',
-          },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Digital Content Creation',
-            description: 'Social media content creation for restaurants, cafes and tourism businesses in Tunisia.',
-          },
-        },
-      ],
-    },
-    sameAs: ['https://www.instagram.com/djerbalens', 'https://www.facebook.com/djerbalens'],
-    priceRange: '$$',
-    openingHours: 'Mo-Su 08:00-20:00',
-  };
-
   useEffect(() => {
-    document.title = 'DjerbaLens – Professional Photographer in Djerba, Tunisia';
-    document.documentElement.lang = 'en';
+    const title = 'Photographe à Djerba | DjerbaLens';
+    const description =
+      'Photographe à Djerba : séance photo pour couples et familles, hôtels et villas. Paysages et contenus photo/vidéo.';
+    document.title = title;
     const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute(
-        'content',
-        'Freelance photographer in Djerba, Tunisia. Specializing in tourist photography, food photography for restaurants & cafes, landscapes and digital content creation. Book a session today.'
-      );
-    }
-    const robots = document.querySelector('meta[name="robots"]');
-    if (robots) robots.setAttribute('content', 'index, follow');
+    if (metaDescription) metaDescription.setAttribute('content', description);
     const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', 'https://djerbalens.space');
+    if (canonical) canonical.setAttribute('href', 'https://www.djerbalens.com/');
     const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', 'DjerbaLens – Professional Photographer in Djerba, Tunisia');
+    if (ogTitle) ogTitle.setAttribute('content', title);
     const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) {
-      ogDescription.setAttribute(
-        'content',
-        'Freelance photographer in Djerba, Tunisia. Specializing in tourist photography, food photography for restaurants & cafes, landscapes and digital content creation. Book a session today.'
-      );
-    }
+    if (ogDescription) ogDescription.setAttribute('content', description);
     const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.setAttribute('content', 'https://djerbalens.space');
+    if (ogUrl) ogUrl.setAttribute('content', 'https://www.djerbalens.com/');
   }, []);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
-      <JsonLd data={localBusinessSchema} />
-
       {/* Cinematic scroll-driven flythrough hero */}
       <CinematicHero />
 
@@ -330,21 +264,33 @@ const Home = () => {
               {
                 title: 'Tourist Photography',
                 image: '/assets/images/tourists/1.jpg',
+                alt: 'Séance photo touristique à Djerba',
+                width: 1280,
+                height: 918,
                 delay: 0,
               },
               {
                 title: 'Horse & Camel Riding',
                 image: '/assets/images/bg/bg4.jpeg',
+                alt: 'Balade à cheval et à dos de chameau à Djerba',
+                width: 1280,
+                height: 853,
                 delay: 200,
               },
               {
                 title: 'Luxury Villas',
                 image: '/assets/images/villas/5.JPG',
+                alt: 'Villa photographiée à Djerba',
+                width: 4000,
+                height: 6000,
                 delay: 400,
               },
               {
                 title: 'Nature',
                 image: '/assets/images/bg/bg3.jpg',
+                alt: 'Paysage naturel de Djerba',
+                width: 1280,
+                height: 853,
                 delay: 600,
               },
             ].map((item, index) => (
@@ -353,7 +299,10 @@ const Home = () => {
                   <div className="aspect-w-4 aspect-h-3 h-64">
                     <img
                       src={item.image}
-                      alt={item.title}
+                      alt={item.alt}
+                      width={item.width}
+                      height={item.height}
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                   </div>

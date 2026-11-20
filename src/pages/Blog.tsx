@@ -1,7 +1,7 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { Calendar, Clock, ArrowRight, MapPin, Camera } from 'lucide-react';
+import { Calendar, Clock, ArrowRight, Camera } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
 
 const Blog = () => {
@@ -11,6 +11,7 @@ const Blog = () => {
       title: 'Top 5 Photo Spots in Djerba',
       excerpt: 'Discover the most Instagram-worthy locations on the island of Djerba, from pristine beaches to traditional architecture.',
       image: 'https://images.pexels.com/photos/1320684/pexels-photo-1320684.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      alt: 'Lieux de photographie de Djerba, entre plages et architecture traditionnelle',
       category: 'Photography Tips',
       date: '2024-01-15',
       readTime: '5 min read',
@@ -21,6 +22,7 @@ const Blog = () => {
       title: 'Best Time for Photography in Tunisia',
       excerpt: 'Learn about the golden hours, seasonal considerations, and weather patterns that make for perfect photography conditions.',
       image: 'https://images.pexels.com/photos/1001435/pexels-photo-1001435.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      alt: 'Lumière et conditions idéales pour photographier Djerba',
       category: 'Travel Tips',
       date: '2024-01-10',
       readTime: '4 min read',
@@ -31,6 +33,7 @@ const Blog = () => {
       title: 'Capturing Authentic Moments: Street Photography in Tunis',
       excerpt: 'A guide to respectful street photography in Tunisia, including cultural considerations and technical tips.',
       image: 'https://images.pexels.com/photos/1320714/pexels-photo-1320714.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      alt: 'Photographie de rue et scènes de vie à Djerba',
       category: 'Photography Tips',
       date: '2024-01-05',
       readTime: '6 min read',
@@ -41,6 +44,7 @@ const Blog = () => {
       title: 'Desert Photography: Sahara Shooting Guide',
       excerpt: 'Essential tips for photographing in the Sahara desert, from equipment protection to composition techniques.',
       image: 'https://images.pexels.com/photos/1320686/pexels-photo-1320686.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      alt: 'Conseils pour photographier les paysages désertiques de Djerba',
       category: 'Photography Tips',
       date: '2023-12-28',
       readTime: '7 min read',
@@ -51,6 +55,7 @@ const Blog = () => {
       title: 'Planning Your Tunisia Photography Tour',
       excerpt: 'A comprehensive guide to planning a photography-focused trip to Tunisia, including must-visit locations and logistics.',
       image: 'https://images.pexels.com/photos/1320688/pexels-photo-1320688.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      alt: 'Préparer un séjour photo à Djerba',
       category: 'Travel Tips',
       date: '2023-12-20',
       readTime: '8 min read',
@@ -61,6 +66,7 @@ const Blog = () => {
       title: 'Working with Natural Light in Mediterranean Climate',
       excerpt: 'How to make the most of the beautiful Mediterranean light for portrait and landscape photography.',
       image: 'https://images.pexels.com/photos/1320689/pexels-photo-1320689.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      alt: 'Lumière méditerranéenne pour les portraits et paysages de Djerba',
       category: 'Photography Tips',
       date: '2023-12-15',
       readTime: '5 min read',
@@ -72,6 +78,23 @@ const Blog = () => {
   const regularPosts = blogPosts.filter(post => !post.featured);
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    const title = 'Conseils photo et voyage à Djerba | DjerbaLens';
+    const description =
+      'Conseils de photographie, idées de voyage et lieux à découvrir à Djerba à travers l’objectif de DjerbaLens.';
+    document.title = title;
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) metaDescription.setAttribute('content', description);
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', title);
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) ogDescription.setAttribute('content', description);
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', 'https://www.djerbalens.com/blog');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', 'https://www.djerbalens.com/blog');
+  }, []);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -112,7 +135,10 @@ const Blog = () => {
                 <div className="relative overflow-hidden rounded-lg shadow-lg">
                   <img
                     src={featuredPost.image}
-                    alt={featuredPost.title}
+                    alt={featuredPost.alt}
+                    width={800}
+                    height={400}
+                    loading="lazy"
                     className="w-full h-96 object-cover hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute top-4 left-4">
@@ -170,7 +196,10 @@ const Blog = () => {
                   <div className="relative">
                     <img
                       src={post.image}
-                      alt={post.title}
+                      alt={post.alt}
+                      width={800}
+                      height={400}
+                      loading="lazy"
                       className="w-full h-48 object-cover"
                     />
                     <div className="absolute top-4 left-4">

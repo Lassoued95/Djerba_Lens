@@ -32,6 +32,52 @@ const getFullUrl = (publicId: string) =>
 const getVideoUrl = (publicId: string) =>
   `${CLOUD_BASE}/video/upload/w_1080,f_auto,q_auto/${publicId}`;
 
+const portfolioImageDimensions: Record<string, { width: number; height: number }> = {
+  'tourists/1': { width: 1280, height: 918 },
+  'tourists/2': { width: 1080, height: 1080 },
+  'tourists/3': { width: 1066, height: 1600 },
+  'tourists/4': { width: 1066, height: 1600 },
+  'tourists/5': { width: 1066, height: 1600 },
+  'tourists/6': { width: 1080, height: 1080 },
+  'horse/1': { width: 4284, height: 5712 },
+  'horse/3': { width: 1080, height: 1080 },
+  'horse/4': { width: 1280, height: 853 },
+  'horse/5': { width: 1111, height: 742 },
+  'villas/1': { width: 4000, height: 6000 },
+  'villas/2': { width: 5619, height: 4000 },
+  'villas/5': { width: 4000, height: 6000 },
+  'villas/6': { width: 6000, height: 4000 },
+  'villas/7': { width: 6000, height: 4000 },
+  'food/1': { width: 1402, height: 1122 },
+  'food/2': { width: 1537, height: 1023 },
+  'food/3': { width: 1537, height: 1023 },
+  'food/4': { width: 1537, height: 1023 },
+  'food/5': { width: 1537, height: 1023 },
+  'food/6': { width: 1187, height: 790 },
+  'food/7': { width: 1537, height: 1023 },
+  'food/8': { width: 1537, height: 1023 },
+  'food/9': { width: 1537, height: 1023 },
+  'food/10': { width: 1023, height: 1537 },
+};
+
+const getImageDimensions = (publicId: string) =>
+  portfolioImageDimensions[publicId] ?? { width: 600, height: 400 };
+
+const getPortfolioAlt = (title: string, category: string) => {
+  if (title.includes('Couple')) return 'Séance photo de couple à Djerba';
+  if (title.includes('Camel')) return 'Balade à cheval et à dos de chameau à Djerba';
+  if (title.includes('Luxury Villas')) return 'Villa photographiée à Djerba';
+  if (title.includes('Horseback')) return 'Séance photo à cheval à Djerba';
+  if (title.includes('Traditional Tunisian Market')) return 'Marché traditionnel de Djerba';
+  if (title.includes('Artisan at Work')) return 'Artisanat local photographié à Djerba';
+  if (title.includes('Food Photography')) return 'Photographie culinaire à Djerba';
+  if (title.includes('Explore Djerba')) return 'Vidéo de voyage à Djerba';
+  if (category === 'tourists') return 'Séance photo touristique à Djerba';
+  if (category === 'villas') return 'Villa photographiée à Djerba';
+  if (category === 'horse') return 'Balade équestre à Djerba';
+  return 'Photographie de produits à Djerba';
+};
+
 // Header background slideshow (cinematic banner) — cycles through a few
 // representative shots automatically, cross-dissolving between them.
 const HEADER_IMAGES = ['villas/1', 'tourists/1', 'food/2', 'horse/1'];
@@ -64,7 +110,7 @@ const Portfolio = () => {
     '@context': 'https://schema.org',
     '@type': 'Photographer',
     name: 'DjerbaLens',
-    url: 'https://www.djerbalens.space/portfolio',
+    url: 'https://www.djerbalens.com/portfolio',
     description: 'Food photographer for restaurants and cafes, tourist and landscape photographer based in Djerba, Tunisia.'
   };
 
@@ -178,27 +224,20 @@ const Portfolio = () => {
   }, [filteredItems.length, lightboxIndex]);
 
   useEffect(() => {
-    document.title = 'Photography Portfolio – Food, Landscape & Tourist Photos | DjerbaLens';
+    const title = 'Portfolio photo à Djerba | DjerbaLens';
+    const description =
+      'Découvrez les photos de couples, villas, paysages et spécialités culinaires réalisées à Djerba par DjerbaLens.';
+    document.title = title;
     const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute(
-        'content',
-        'Explore DjerbaLens portfolio: food photography for restaurants and cafes, tourist photography, and landscape shots captured in Djerba, Tunisia.'
-      );
-    }
+    if (metaDescription) metaDescription.setAttribute('content', description);
     const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) {
-      ogTitle.setAttribute('content', 'Photography Portfolio – Food, Landscape & Tourist Photos | DjerbaLens');
-    }
+    if (ogTitle) ogTitle.setAttribute('content', title);
     const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) {
-      ogDescription.setAttribute(
-        'content',
-        'Explore DjerbaLens portfolio: food photography for restaurants and cafes, tourist photography, and landscape shots captured in Djerba, Tunisia.'
-      );
-    }
+    if (ogDescription) ogDescription.setAttribute('content', description);
     const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', 'https://www.djerbalens.space/portfolio');
+    if (canonical) canonical.setAttribute('href', 'https://www.djerbalens.com/portfolio');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', 'https://www.djerbalens.com/portfolio');
   }, []);
 
   const activeItem = lightboxIndex !== null ? filteredItems[lightboxIndex] : null;
@@ -217,7 +256,9 @@ const Portfolio = () => {
             <motion.img
               key={publicId}
               src={getMasonryThumbUrl(publicId)}
-              alt="DjerbaLens photography"
+              alt={`${publicId.startsWith('villas/') ? 'Villa' : publicId.startsWith('food/') ? 'Photographie culinaire' : publicId.startsWith('horse/') ? 'Balade équestre' : 'Séance photo'} à Djerba`}
+              width={600}
+              height={400}
               className="absolute inset-0 w-full h-full object-cover"
               initial={false}
               animate={{ opacity: idx === headerSlide ? 1 : 0 }}
@@ -296,7 +337,9 @@ const Portfolio = () => {
                 >
                   <img
                     src={getMasonryThumbUrl(item.image)}
-                    alt={item.title || 'DjerbaLens photography'}
+                    alt={getPortfolioAlt(item.title, item.category)}
+                    width={getImageDimensions(item.image).width}
+                    height={getImageDimensions(item.image).height}
                     loading="lazy"
                     className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-110"
                   />
@@ -311,9 +354,9 @@ const Portfolio = () => {
 
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                     {item.title && (
-                      <h3 className="text-white font-semibold text-sm translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      <h2 className="text-white font-semibold text-sm translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                         {item.title}
-                      </h3>
+                      </h2>
                     )}
                   </div>
                 </div>
@@ -406,7 +449,10 @@ const Portfolio = () => {
                 {activeItem.type === 'image' ? (
                   <img
                     src={getFullUrl(activeItem.image)}
-                    alt={activeItem.title || 'Preview'}
+                    alt={getPortfolioAlt(activeItem.title, activeItem.category)}
+                    width={getImageDimensions(activeItem.image).width}
+                    height={getImageDimensions(activeItem.image).height}
+                    loading="lazy"
                     className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded-lg shadow-2xl"
                   />
                 ) : (

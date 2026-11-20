@@ -203,7 +203,9 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ editingReview, onCancelEdit }) 
           <div className="relative inline-block">
             <img
               src={imagePreview}
-              alt="Preview"
+              alt="Aperçu de la photo du témoignage à Djerba"
+              width={192}
+              height={192}
               className="w-48 h-48 object-cover rounded-lg shadow-md"
             />
             <button

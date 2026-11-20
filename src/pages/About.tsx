@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Camera, MapPin, Heart, Award, Users, ArrowRight } from 'lucide-react';
@@ -35,27 +35,20 @@ const About = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    document.title = 'About DjerbaLens – Freelance Photographer in Djerba, Tunisia';
+    const title = 'À propos de DjerbaLens | Photographe à Djerba';
+    const description =
+      'Découvrez le photographe derrière DjerbaLens, spécialiste des séances photo, paysages et contenus visuels à Djerba.';
+    document.title = title;
     const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute(
-        'content',
-        'Meet the photographer behind DjerbaLens — capturing Tunisia\'s beauty through food photography, tourism, and landscape photography in Djerba.'
-      );
-    }
+    if (metaDescription) metaDescription.setAttribute('content', description);
     const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) {
-      ogTitle.setAttribute('content', 'About DjerbaLens – Freelance Photographer in Djerba, Tunisia');
-    }
+    if (ogTitle) ogTitle.setAttribute('content', title);
     const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) {
-      ogDescription.setAttribute(
-        'content',
-        'Meet the photographer behind DjerbaLens — capturing Tunisia\'s beauty through food photography, tourism, and landscape photography in Djerba.'
-      );
-    }
+    if (ogDescription) ogDescription.setAttribute('content', description);
     const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', 'https://djerbalens.space/about');
+    if (canonical) canonical.setAttribute('href', 'https://www.djerbalens.com/about');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', 'https://www.djerbalens.com/about');
   }, []);
 
   return (
@@ -89,7 +82,10 @@ const About = () => {
               <div className="relative">
                 <img
                   src="https://images.pexels.com/photos/1320684/pexels-photo-1320684.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
-                  alt="Ahmed - Photographer"
+                  alt="Portrait du photographe de Djerba"
+                  width={600}
+                  height={800}
+                  loading="lazy"
                   className="rounded-lg shadow-2xl"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg"></div>

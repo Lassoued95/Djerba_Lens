@@ -81,7 +81,9 @@ const ReviewList: React.FC = () => {
             <div className="mt-4 overflow-hidden rounded-lg">
               <img
                 src={review.imageUrl}
-                alt="Review"
+                alt={`Photo du témoignage de ${review.name} à Djerba`}
+                width={640}
+                height={480}
                 className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                 loading="lazy"
               />

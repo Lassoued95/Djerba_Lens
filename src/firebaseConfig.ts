@@ -1,6 +1,13 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore, Timestamp, enableIndexedDbPersistence } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { getApp, getApps, initializeApp } from 'firebase/app';
+import {
+  enableIndexedDbPersistence,
+  getFirestore,
+  Timestamp,
+  type Firestore,
+} from 'firebase/firestore';
+import { getUserId } from './utils/userUtils';
+
+export { getUserId };
 
 const firebaseConfig = {
   apiKey: "AIzaSyAcauuA4jFLkGB_CoUiaZOS69wsF4UZJqc",
@@ -12,25 +19,28 @@ const firebaseConfig = {
   measurementId: "G-EC7S18JKZV"
 };
 
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+let firestore: Firestore | undefined;
 
-enableIndexedDbPersistence(db).catch((err) => {
-  if (err.code === 'failed-precondition') {
-    console.warn('Multiple tabs open, persistence can only be enabled in one tab at a time.');
-  } else if (err.code === 'unimplemented') {
-    console.warn('The current browser does not support persistence.');
+export const getFirebaseDb = (): Firestore => {
+  if (typeof window === 'undefined') {
+    throw new Error('Firebase Firestore is only available in the browser.');
   }
-});
+
+  if (!firestore) {
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    firestore = getFirestore(app);
+    enableIndexedDbPersistence(firestore).catch((err: { code?: string }) => {
+      if (err.code === 'failed-precondition') {
+        console.warn('Multiple tabs open, persistence can only be enabled in one tab at a time.');
+      } else if (err.code === 'unimplemented') {
+        console.warn('The current browser does not support persistence.');
+      } else {
+        console.error('Failed to enable Firestore offline persistence:', err);
+      }
+    });
+  }
+
+  return firestore;
+};
 
 export { Timestamp };
-
-export const getUserId = (): string => {
-  let userId = localStorage.getItem('userId');
-  if (!userId) {
-    userId = 'user_' + Math.random().toString(36).substring(2, 15);
-    localStorage.setItem('userId', userId);
-  }
-  return userId;
-};

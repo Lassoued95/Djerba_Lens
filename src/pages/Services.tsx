@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Camera, Video, Edit, MapPin, Clock, Star, ArrowRight, Check
 } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
+import Seo from '../components/Seo';
 import { useTranslation } from 'react-i18next';
 
 const Services = () => {
@@ -63,25 +63,13 @@ const Services = () => {
     },
   ];
 
-  useEffect(() => {
-    const title = 'Services photo à Djerba | DjerbaLens';
-    const description =
-      'Séances photo à Djerba pour couples et familles, hôtels et villas, photographie culinaire et création de contenu photo/vidéo.';
-    document.title = title;
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) metaDescription.setAttribute('content', description);
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', title);
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) ogDescription.setAttribute('content', description);
-    const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', 'https://www.djerbalens.com/services');
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.setAttribute('content', 'https://www.djerbalens.com/services');
-  }, []);
-
   return (
     <div className="min-h-screen pt-16">
+      <Seo
+        title="Services photo et vidéo à Djerba | DjerbaLens"
+        description="Découvrez les services photo et vidéo de DjerbaLens pour les visiteurs, familles et professionnels à Djerba."
+        path="/services"
+      />
 
       {/* Header */}
       <section className="bg-gradient-to-r from-red-600 to-red-800 text-white py-20">

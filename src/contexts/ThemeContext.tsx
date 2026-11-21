@@ -23,6 +23,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     const saved = localStorage.getItem('theme');
     if (saved) {
       setIsDark(saved === 'dark');
@@ -32,6 +33,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    if (typeof document === 'undefined' || typeof window === 'undefined') return;
     if (isDark) {
       document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');

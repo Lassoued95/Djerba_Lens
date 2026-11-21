@@ -14,13 +14,23 @@ const LanguageSwitcher: React.FC = () => {
 
   const current = languages.find((l) => l.code === i18n.language.split('-')[0]) || languages[1];
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage && languages.some((language) => language.code === savedLanguage)) {
+      void i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
+
   const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
+    if (typeof window !== 'undefined') localStorage.setItem('language', lng);
+    void i18n.changeLanguage(lng);
     setOpen(false);
   };
 
   // Fermer si clic en dehors
   useEffect(() => {
+    if (typeof document === 'undefined') return;
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false);

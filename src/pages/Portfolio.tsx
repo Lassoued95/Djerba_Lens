@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { X, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
 import AnimatedSection from '../components/AnimatedSection';
-import JsonLd from '../components/JsonLd';
+import Seo from '../components/Seo';
 import { useTranslation } from 'react-i18next';
 
 type PortfolioItem = {
@@ -78,33 +79,65 @@ const getPortfolioAlt = (title: string, category: string) => {
   return 'Photographie de produits à Djerba';
 };
 
-// Header background slideshow (cinematic banner) — cycles through a few
-// representative shots automatically, cross-dissolving between them.
-const HEADER_IMAGES = ['villas/1', 'tourists/1', 'food/2', 'horse/1'];
-const HEADER_SLIDE_INTERVAL = 4000; // ms
-
-const Portfolio = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [headerSlide, setHeaderSlide] = useState(0);
+const PortfolioHero = () => {
+  const headerRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = useReducedMotion();
   const { t } = useTranslation();
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setHeaderSlide((prev) => (prev + 1) % HEADER_IMAGES.length);
-    }, HEADER_SLIDE_INTERVAL);
-    return () => clearInterval(interval);
-  }, []);
-
-  const headerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: headerRef,
     offset: ['start start', 'end start'],
   });
-  const headerImageY = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const headerImageScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
-  const headerTextOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const headerTextY = useTransform(scrollYProgress, [0, 1], [0, -40]);
+  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.35 });
+  const cameraScale = useTransform(progress, [0, 1], prefersReducedMotion ? [1, 1] : [1, 1.1]);
+  const cameraY = useTransform(progress, [0, 1], prefersReducedMotion ? ['0vh', '0vh'] : ['0vh', '-3vh']);
+  const copyOpacity = useTransform(progress, [0, 0.72, 1], prefersReducedMotion ? [1, 1, 1] : [1, 1, 0.25]);
+  const copyY = useTransform(progress, [0, 1], prefersReducedMotion ? ['0vh', '0vh'] : ['0vh', '-2vh']);
+  const scrollLineScale = useTransform(progress, [0, 1], [0.2, 1]);
+
+  return (
+    <header ref={headerRef} className="portfolio-hero">
+      <motion.div
+        className="portfolio-hero-camera"
+        style={{ x: '-50%', y: cameraY, scale: cameraScale }}
+      >
+        <img
+          src="/assets/images/bg/camera_bg.png"
+          alt=""
+          width="1672"
+          height="1106"
+          loading="eager"
+        />
+      </motion.div>
+      <motion.div
+        className="portfolio-hero-copy"
+        style={{ opacity: copyOpacity, y: copyY }}
+      >
+        <p className="portfolio-location">
+          <MapPin aria-hidden="true" />
+          <span>Djerba, Tunisie</span>
+        </p>
+        <h1>{t('portfolio.title')}</h1>
+        <p className="portfolio-hero-description">{t('portfolio.description')}</p>
+      </motion.div>
+      <div className="portfolio-hero-index" aria-hidden="true">
+        <span>DJERBALENS</span>
+        <span>PORTFOLIO — 01</span>
+      </div>
+      {!prefersReducedMotion && (
+        <motion.span
+          className="portfolio-scroll-line"
+          style={{ scaleY: scrollLineScale }}
+          aria-hidden="true"
+        />
+      )}
+    </header>
+  );
+};
+
+const Portfolio = () => {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   const photographerSchema = {
     '@context': 'https://schema.org',
@@ -216,6 +249,15 @@ const Portfolio = () => {
     return () => window.removeEventListener('keydown', handleKey);
   }, [lightboxIndex, closeLightbox, showNext, showPrev]);
 
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [lightboxIndex]);
+
   // Reset lightbox if the filtered set changes (e.g. category switch) and index is now out of range
   useEffect(() => {
     if (lightboxIndex !== null && lightboxIndex >= filteredItems.length) {
@@ -223,117 +265,71 @@ const Portfolio = () => {
     }
   }, [filteredItems.length, lightboxIndex]);
 
-  useEffect(() => {
-    const title = 'Portfolio photo à Djerba | DjerbaLens';
-    const description =
-      'Découvrez les photos de couples, villas, paysages et spécialités culinaires réalisées à Djerba par DjerbaLens.';
-    document.title = title;
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) metaDescription.setAttribute('content', description);
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', title);
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) ogDescription.setAttribute('content', description);
-    const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', 'https://www.djerbalens.com/portfolio');
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.setAttribute('content', 'https://www.djerbalens.com/portfolio');
-  }, []);
-
   const activeItem = lightboxIndex !== null ? filteredItems[lightboxIndex] : null;
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
-      <JsonLd data={photographerSchema} />
+      <Seo
+        title="Portfolio photo à Djerba | DjerbaLens"
+        description="Découvrez les photos de couples, villas, paysages et spécialités culinaires réalisées à Djerba par DjerbaLens."
+        path="/portfolio"
+        preloadImage="/assets/images/bg/camera_bg.png"
+        structuredData={photographerSchema}
+      />
 
-      {/* Cinematic Header */}
-      <div ref={headerRef} className="relative h-[70vh] min-h-[420px] overflow-hidden bg-black">
-        <motion.div
-          className="absolute inset-0"
-          style={{ y: headerImageY, scale: headerImageScale }}
-        >
-          {HEADER_IMAGES.map((publicId, idx) => (
-            <motion.img
-              key={publicId}
-              src={getMasonryThumbUrl(publicId)}
-              alt={`${publicId.startsWith('villas/') ? 'Villa' : publicId.startsWith('food/') ? 'Photographie culinaire' : publicId.startsWith('horse/') ? 'Balade équestre' : 'Séance photo'} à Djerba`}
-              width={600}
-              height={400}
-              className="absolute inset-0 w-full h-full object-cover"
-              initial={false}
-              animate={{ opacity: idx === headerSlide ? 1 : 0 }}
-              transition={{ duration: 1.2, ease: 'easeInOut' }}
-            />
+      <PortfolioHero />
+
+      <section className="portfolio-filters" aria-label="Filtres du portfolio">
+        <div className="portfolio-filter-list" role="group" aria-label="Catégories de photos">
+          {categories.map((cat) => (
+            <motion.button
+              key={cat.id}
+              type="button"
+              onClick={() => setSelectedCategory(cat.id)}
+              aria-pressed={selectedCategory === cat.id}
+              className={`portfolio-filter${selectedCategory === cat.id ? ' is-active' : ''}`}
+              whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
+            >
+              {selectedCategory === cat.id && !prefersReducedMotion && (
+                <motion.span
+                  layoutId="portfolio-filter-active"
+                  className="portfolio-filter-active"
+                  transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                />
+              )}
+              <span className="portfolio-filter-label">{cat.name}</span>
+            </motion.button>
           ))}
-        </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.75) 100%)',
-          }}
-        />
-
-        <motion.div
-          style={{ opacity: headerTextOpacity, y: headerTextY }}
-          className="relative z-10 h-full flex items-center justify-center px-4"
-        >
-          <div className="text-center text-white max-w-3xl mx-auto">
-            <div className="flex items-center justify-center mb-4">
-              <MapPin className="h-5 w-5 text-orange-400 mr-2" />
-              <span className="text-orange-400 font-medium uppercase tracking-widest text-sm">
-                Djerba, Tunisia
-              </span>
-            </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 tracking-tight">
-              {t('portfolio.title')}
-            </h1>
-            <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto">
-              {t('portfolio.description')}
-            </p>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Filter Buttons */}
-      <section className="py-8 bg-white dark:bg-gray-900 sticky top-0 z-30 border-b border-gray-100 dark:border-gray-800 backdrop-blur-md bg-white/90 dark:bg-gray-900/90">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-3">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                  selectedCategory === cat.id
-                    ? 'bg-orange-600 text-white shadow-md shadow-orange-600/30 scale-105'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-gray-700 hover:scale-105'
-                }`}
-              >
-                {cat.name}
-              </button>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* Masonry Grid */}
-      <section className="py-12 bg-white dark:bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4">
+      <section className="portfolio-gallery">
+        <div className="portfolio-gallery-inner">
+          <div className="portfolio-gallery-heading">
+            <div>
+              <span className="portfolio-section-kicker">DJERBALENS — COLLECTION</span>
+              <h2>{categories.find((category) => category.id === selectedCategory)?.name}</h2>
+            </div>
+            <p>{filteredItems.length.toString().padStart(2, '0')} <span>IMAGES</span></p>
+          </div>
           <motion.div
             key={selectedCategory}
-            className="[column-fill:_balance] sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4"
+            className="portfolio-masonry"
           >
             {filteredItems.map((item, idx) => (
               <motion.div
                 key={item.id}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: Math.min(idx * 0.05, 0.6), ease: 'easeOut' }}
-                className="break-inside-avoid mb-4"
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+                whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.12 }}
+                transition={{ duration: 0.42, delay: Math.min(idx * 0.025, 0.22), ease: 'easeOut' }}
+                className="portfolio-masonry-item"
               >
-                <div
-                  className="group relative overflow-hidden rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-500 cursor-pointer bg-gray-100 dark:bg-gray-800"
+                <button
+                  type="button"
+                  aria-label={`${item.type === 'video' ? 'Lire' : 'Voir'} : ${getPortfolioAlt(item.title, item.category)}`}
                   onClick={() => setLightboxIndex(idx)}
+                  className="portfolio-card"
                 >
                   <img
                     src={getMasonryThumbUrl(item.image)}
@@ -341,28 +337,71 @@ const Portfolio = () => {
                     width={getImageDimensions(item.image).width}
                     height={getImageDimensions(item.image).height}
                     loading="lazy"
-                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-110"
+                    decoding="async"
                   />
 
                   {item.type === 'video' && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/25 transition-colors duration-300">
-                      <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">
-                        <div className="w-0 h-0 border-y-[10px] border-y-transparent border-l-[16px] border-l-orange-600 ml-1" />
-                      </div>
-                    </div>
+                    <span className="portfolio-video-mark" aria-hidden="true">
+                      <span />
+                    </span>
                   )}
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    {item.title && (
-                      <h2 className="text-white font-semibold text-sm translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        {item.title}
-                      </h2>
-                    )}
-                  </div>
-                </div>
+                  {item.title && (
+                    <span className="portfolio-card-caption">
+                      {item.title}
+                      <span aria-hidden="true">↗</span>
+                    </span>
+                  )}
+                  {item.type === 'video' && (
+                    <span className="portfolio-video-label" aria-hidden="true">FILM</span>
+                  )}
+                </button>
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      <section className="bg-white py-16 dark:bg-gray-900">
+        <div className="mx-auto max-w-5xl space-y-6 px-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Des images de Djerba, de ses habitants et de ses lieux
+          </h2>
+          <p>
+            Ce portfolio rassemble différentes facettes du travail photographique réalisé à Djerba :
+            des séances pour les visiteurs, des portraits de couple, des images de villas et des
+            photographies culinaires. Chaque série part d’un contexte précis. Une séance de voyage
+            raconte des instants partagés et une découverte de l’île ; une série immobilière présente
+            des espaces et leurs détails ; une image culinaire met en lumière la présentation d’un
+            plat ou d’un produit. Le fil conducteur reste une attention portée à la lumière, au cadre
+            et à l’atmosphère du sujet.
+          </p>
+          <p>
+            Les filtres vous permettent de parcourir les catégories disponibles, puis d’ouvrir une
+            image pour la regarder en grand. Les photos de personnes sont pensées autour de moments
+            naturels et d’une présence à l’aise devant l’objectif. Pour les hébergements, l’objectif
+            est de montrer les volumes et les éléments qui aident à comprendre le lieu, sans
+            transformer la réalité. Les images culinaires et de produits sont réalisées avec soin
+            pour conserver des textures et des couleurs fidèles.
+          </p>
+          <p>
+            Vous cherchez une séance qui ne figure pas exactement dans ces exemples ? Le portfolio
+            sert de point de départ pour échanger sur votre projet, pas de catalogue de formules
+            identiques. Nous pouvons discuter du lieu, de l’ambiance, du nombre de personnes ou
+            d’espaces à photographier et des supports pour lesquels vous utiliserez les images.
+            Les disponibilités, les tarifs, le nombre de livrables et le délai de livraison sont
+            confirmés avant la réservation — TODO : compléter les prix et délais réels.
+          </p>
+          <p>
+            Les photos et vidéos présentées ne remplacent pas une préparation adaptée à chaque
+            projet. Pour une séance couple ou famille, nous choisissons ensemble un endroit et un
+            rythme confortables. Pour un hôtel, une villa ou une activité, nous définissons en amont
+            les espaces ou éléments à montrer et les conditions d’accès. Découvrez les pages de
+            <Link to="/photographe-couple-djerba" className="text-red-700 underline dark:text-red-300"> séance couple</Link>,
+            <Link to="/photographe-famille-djerba" className="text-red-700 underline dark:text-red-300"> séance famille</Link>,
+            <Link to="/photographe-hotel-villa-djerba" className="text-red-700 underline dark:text-red-300"> photographie d’hébergement</Link>
+            {' '}et <Link to="/contenu-photo-video-djerba" className="text-red-700 underline dark:text-red-300">contenu photo/vidéo</Link>,
+            ou contactez-moi pour parler de vos besoins.
+          </p>
         </div>
       </section>
 
@@ -391,59 +430,58 @@ const Portfolio = () => {
       <AnimatePresence>
         {activeItem && (
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={prefersReducedMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center"
+            exit={prefersReducedMotion ? undefined : { opacity: 0 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.24 }}
+            className="portfolio-lightbox"
             onClick={closeLightbox}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Visionneuse du portfolio"
           >
-            {/* Close button */}
             <button
               onClick={closeLightbox}
-              className="absolute top-6 right-6 z-10 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors backdrop-blur-sm"
-              aria-label="Close"
+              className="portfolio-lightbox-close"
+              aria-label="Fermer la visionneuse"
             >
               <X className="h-6 w-6 text-white" />
             </button>
 
-            {/* Prev arrow */}
             {filteredItems.length > 1 && (
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   showPrev();
                 }}
-                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors backdrop-blur-sm"
-                aria-label="Previous"
+                className="portfolio-lightbox-nav portfolio-lightbox-nav--previous"
+                aria-label="Image précédente"
               >
                 <ChevronLeft className="h-6 w-6 text-white" />
               </button>
             )}
 
-            {/* Next arrow */}
             {filteredItems.length > 1 && (
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   showNext();
                 }}
-                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors backdrop-blur-sm"
-                aria-label="Next"
+                className="portfolio-lightbox-nav portfolio-lightbox-nav--next"
+                aria-label="Image suivante"
               >
                 <ChevronRight className="h-6 w-6 text-white" />
               </button>
             )}
 
-            {/* Content */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeItem.id}
-                initial={{ opacity: 0, scale: 0.92 }}
+                initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
-                className="relative max-w-5xl w-full max-h-[85vh] mx-4 flex flex-col items-center"
+                exit={prefersReducedMotion ? undefined : { opacity: 0, scale: 0.99 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.24, ease: 'easeOut' }}
+                className="portfolio-lightbox-content"
                 onClick={(e) => e.stopPropagation()}
               >
                 {activeItem.type === 'image' ? (
@@ -453,19 +491,21 @@ const Portfolio = () => {
                     width={getImageDimensions(activeItem.image).width}
                     height={getImageDimensions(activeItem.image).height}
                     loading="lazy"
-                    className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded-lg shadow-2xl"
+                    decoding="async"
+                    className="portfolio-lightbox-image"
                   />
                 ) : (
                   <video
                     src={getVideoUrl(activeItem.videoSrc ?? '')}
                     controls
                     autoPlay
-                    className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded-lg shadow-2xl"
+                    className="portfolio-lightbox-image"
                   />
                 )}
-                {activeItem.title && (
-                  <p className="mt-4 text-white/80 text-sm tracking-wide">{activeItem.title}</p>
-                )}
+                <p className="portfolio-lightbox-caption">
+                  <span>{activeItem.title || getPortfolioAlt(activeItem.title, activeItem.category)}</span>
+                  <span>{String((lightboxIndex ?? 0) + 1).padStart(2, '0')} / {String(filteredItems.length).padStart(2, '0')}</span>
+                </p>
               </motion.div>
             </AnimatePresence>
           </motion.div>

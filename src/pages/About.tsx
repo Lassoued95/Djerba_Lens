@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Camera, MapPin, Heart, Award, Users, ArrowRight } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
+import Seo from '../components/Seo';
 
 const About = () => {
  const skills = [
@@ -34,25 +34,13 @@ const About = () => {
 
   const { t } = useTranslation();
 
-  useEffect(() => {
-    const title = 'À propos de DjerbaLens | Photographe à Djerba';
-    const description =
-      'Découvrez le photographe derrière DjerbaLens, spécialiste des séances photo, paysages et contenus visuels à Djerba.';
-    document.title = title;
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) metaDescription.setAttribute('content', description);
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', title);
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) ogDescription.setAttribute('content', description);
-    const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', 'https://www.djerbalens.com/about');
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.setAttribute('content', 'https://www.djerbalens.com/about');
-  }, []);
-
   return (
     <div className="min-h-screen pt-16">
+      <Seo
+        title="À propos de DjerbaLens | Photographe à Djerba"
+        description="Découvrez le photographe derrière DjerbaLens, spécialiste des séances photo, paysages et contenus visuels à Djerba."
+        path="/about"
+      />
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-r from-red-600 to-red-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

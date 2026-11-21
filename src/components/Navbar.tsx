@@ -11,8 +11,11 @@ const Navbar = () => {
   const { isDark, toggleTheme } = useTheme();
   const location = useLocation();
   const { t } = useTranslation();
+  const isHeroAtTop =
+    (location.pathname === '/' || location.pathname === '/portfolio') && !isScrolled && !isOpen;
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
@@ -49,7 +52,11 @@ const Navbar = () => {
                 className="h-10 w-10 object-contain rounded-full"
               />
             </div>
-            <span className="text-xl font-bold text-gray-900 dark:text-white tracking-wide bg-white/20 dark:bg-gray-800/30 px-3 py-1 rounded-full backdrop-blur-sm transition-all duration-300 group-hover:bg-white/30 dark:group-hover:bg-gray-800/50">
+            <span className={`text-xl font-bold tracking-wide px-3 py-1 rounded-full backdrop-blur-sm transition-all duration-300 group-hover:bg-white/30 dark:group-hover:bg-gray-800/50 ${
+              isHeroAtTop
+                ? 'text-white bg-white/10'
+                : 'text-gray-900 dark:text-white bg-white/20 dark:bg-gray-800/30'
+            }`}>
               {t('site.title')}
             </span>
           </Link>
@@ -63,6 +70,8 @@ const Navbar = () => {
                 className={`text-sm font-medium transition-colors duration-200 ${
                   location.pathname === item.href
                     ? 'text-orange-600 dark:text-orange-400'
+                    : isHeroAtTop
+                    ? 'text-white/80 hover:text-orange-300'
                     : 'text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400'
                 }`}
               >
@@ -75,12 +84,16 @@ const Navbar = () => {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
+              className={`p-2 rounded-lg transition-colors duration-200 ${
+                isHeroAtTop
+                  ? 'bg-white/10 hover:bg-white/20'
+                  : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+              }`}
             >
               {isDark ? (
                 <Sun className="h-5 w-5 text-yellow-600" />
               ) : (
-                <Moon className="h-5 w-5 text-gray-600" />
+                <Moon className={`h-5 w-5 ${isHeroAtTop ? 'text-white' : 'text-gray-600'}`} />
               )}
             </button>
           </div>
@@ -89,12 +102,16 @@ const Navbar = () => {
           <div className="md:hidden flex items-center space-x-2">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
+              className={`p-2 rounded-lg transition-colors duration-200 ${
+                isHeroAtTop
+                  ? 'bg-white/10 hover:bg-white/20'
+                  : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+              }`}
             >
               {isDark ? (
                 <Sun className="h-5 w-5 text-yellow-600" />
               ) : (
-                <Moon className="h-5 w-5 text-gray-600" />
+                <Moon className={`h-5 w-5 ${isHeroAtTop ? 'text-white' : 'text-gray-600'}`} />
               )}
             </button>
             <button
@@ -104,7 +121,7 @@ const Navbar = () => {
               {isOpen ? (
                 <X className="h-6 w-6 text-gray-600 dark:text-gray-300" />
               ) : (
-                <Menu className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+                <Menu className={`h-6 w-6 ${isHeroAtTop ? 'text-white' : 'text-gray-600 dark:text-gray-300'}`} />
               )}
             </button>
           </div>

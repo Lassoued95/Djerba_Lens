@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowRight, Camera } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
+import Seo from '../components/Seo';
 
 const Blog = () => {
   const blogPosts = [
@@ -79,23 +79,6 @@ const Blog = () => {
 
   const { t } = useTranslation();
 
-  useEffect(() => {
-    const title = 'Conseils photo et voyage à Djerba | DjerbaLens';
-    const description =
-      'Conseils de photographie, idées de voyage et lieux à découvrir à Djerba à travers l’objectif de DjerbaLens.';
-    document.title = title;
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) metaDescription.setAttribute('content', description);
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', title);
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) ogDescription.setAttribute('content', description);
-    const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', 'https://www.djerbalens.com/blog');
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.setAttribute('content', 'https://www.djerbalens.com/blog');
-  }, []);
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
@@ -107,6 +90,11 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen pt-16">
+      <Seo
+        title="Conseils photo et voyage à Djerba | DjerbaLens"
+        description="Conseils de photographie, idées de voyage et lieux à découvrir à Djerba à travers l’objectif de DjerbaLens."
+        path="/blog"
+      />
       {/* Header */}
       <section className="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

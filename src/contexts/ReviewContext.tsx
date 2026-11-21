@@ -10,7 +10,7 @@ import {
   doc,
   Timestamp
 } from 'firebase/firestore';
-import { db, getUserId } from '../firebaseConfig';
+import { getFirebaseDb, getUserId } from '../firebaseConfig';
 
 export interface Review {
   id?: string;
@@ -85,7 +85,7 @@ export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         setLoading(true);
         setError(null);
 
-        const reviewsCollection = collection(db, 'reviews');
+        const reviewsCollection = collection(getFirebaseDb(), 'reviews');
         const q = query(reviewsCollection, orderBy('createdAt', 'desc'));
 
         unsubscribe = onSnapshot(
@@ -145,7 +145,7 @@ export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         imageUrl = await uploadImageToCloudinary(imageFile);
       }
 
-      await addDoc(collection(db, 'reviews'), {
+      await addDoc(collection(getFirebaseDb(), 'reviews'), {
         name: review.name,
         location: review.location || '',
         text: review.text,
@@ -178,7 +178,7 @@ export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         updateData.imageUrl = imageUrl;
       }
 
-      await updateDoc(doc(db, 'reviews', reviewId), updateData);
+      await updateDoc(doc(getFirebaseDb(), 'reviews', reviewId), updateData);
     } catch (err) {
       console.error('Error updating review:', err);
       throw new Error('Failed to update review. Please try again.');
@@ -192,7 +192,7 @@ export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         throw new Error('Cannot delete this review');
       }
 
-      await deleteDoc(doc(db, 'reviews', reviewId));
+      await deleteDoc(doc(getFirebaseDb(), 'reviews', reviewId));
     } catch (err) {
       console.error('Error deleting review:', err);
       throw new Error('Failed to delete review. Please try again.');

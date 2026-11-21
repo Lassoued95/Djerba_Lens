@@ -4,6 +4,8 @@ import type { RouteRecord } from 'vite-react-ssg';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
+import i18n from './i18n';
+import { routeConfig, type Language, type RouteKey } from './routeConfig';
 
 const ChatBot = lazy(() => import('./components/ChatBot'));
 
@@ -37,47 +39,61 @@ function AppLayout() {
   );
 }
 
-const lazyPage = (load: () => Promise<{ default: ComponentType }>) => async () => {
+const lazyPage = (
+  load: () => Promise<{ default: ComponentType }>,
+  language: Language,
+) => async () => {
+  await i18n.changeLanguage(language);
   const page = await load();
   return { Component: page.default };
 };
 
-const lazyService = (
-  load: () => Promise<{ [key: string]: ComponentType }>,
-  exportName: string,
-) => async () => {
-  const page = await load();
-  return { Component: page[exportName] };
+const lazyService = (exportName: string, language: Language) => async () => {
+  await i18n.changeLanguage(language);
+  const page = await import('./pages/ServiceLandingPage');
+  const Component = page[exportName as keyof typeof page];
+  if (typeof Component !== 'function') {
+    throw new Error(`Unknown service page export: ${exportName}`);
+  }
+  return { Component };
+};
+
+const lazyRouteForLanguage: Record<
+  RouteKey,
+  (language: Language) => () => Promise<{ Component: ComponentType }>
+> = {
+  home: (language) => lazyPage(() => import('./pages/Home'), language),
+  portfolio: (language) => lazyPage(() => import('./pages/Portfolio'), language),
+  services: (language) => lazyPage(() => import('./pages/Services'), language),
+  about: (language) => lazyPage(() => import('./pages/About'), language),
+  contact: (language) => lazyPage(() => import('./pages/Contact'), language),
+  couple: (language) => lazyService('CoupleServicePage', language),
+  family: (language) => lazyService('FamilyServicePage', language),
+  hotelVilla: (language) => lazyService('HotelVillaServicePage', language),
+  photoVideo: (language) => lazyService('PhotoVideoServicePage', language),
+  blog: (language) => lazyPage(() => import('./pages/Blog'), language),
+  reviews: (language) => lazyPage(() => import('./pages/Reviews'), language),
+};
+
+const languageRoute = (language: Language): RouteRecord => {
+  const prefix = language === 'fr' ? '/fr' : '';
+  const homePath = language === 'fr' ? '/fr/' : '/';
+
+  return {
+    path: language === 'fr' ? '/fr' : '/',
+    Component: AppLayout,
+    children: routeConfig.map((route) => {
+      const path = route.paths[language];
+      const lazy = lazyRouteForLanguage[route.key](language);
+
+      return path === homePath
+        ? { index: true, lazy }
+        : { path: path.slice(prefix.length + 1), lazy };
+    }),
+  };
 };
 
 export const routes: RouteRecord[] = [
-  {
-    path: '/',
-    Component: AppLayout,
-    children: [
-      { index: true, lazy: lazyPage(() => import('./pages/Home')) },
-      {
-        path: 'photographe-couple-djerba',
-        lazy: lazyService(() => import('./pages/ServiceLandingPage'), 'CoupleServicePage'),
-      },
-      {
-        path: 'photographe-famille-djerba',
-        lazy: lazyService(() => import('./pages/ServiceLandingPage'), 'FamilyServicePage'),
-      },
-      {
-        path: 'photographe-hotel-villa-djerba',
-        lazy: lazyService(() => import('./pages/ServiceLandingPage'), 'HotelVillaServicePage'),
-      },
-      {
-        path: 'contenu-photo-video-djerba',
-        lazy: lazyService(() => import('./pages/ServiceLandingPage'), 'PhotoVideoServicePage'),
-      },
-      { path: 'portfolio', lazy: lazyPage(() => import('./pages/Portfolio')) },
-      { path: 'contact', lazy: lazyPage(() => import('./pages/Contact')) },
-      { path: 'services', lazy: lazyPage(() => import('./pages/Services')) },
-      { path: 'blog', lazy: lazyPage(() => import('./pages/Blog')) },
-      { path: 'about', lazy: lazyPage(() => import('./pages/About')) },
-      { path: 'reviews', lazy: lazyPage(() => import('./pages/Reviews')) },
-    ],
-  },
+  languageRoute('en'),
+  languageRoute('fr'),
 ];

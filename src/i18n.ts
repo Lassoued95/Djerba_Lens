@@ -12,15 +12,15 @@ i18n
       fr: { translation: fr },
       ar: { translation: ar },
     },
-    lng: 'fr',
-    fallbackLng: 'fr',
+    lng: 'en',
+    fallbackLng: 'en',
     debug: false,
     interpolation: { escapeValue: false },
   });
 
 i18n.on('languageChanged', (lng) => {
   if (typeof document !== 'undefined') {
-    document.documentElement.lang = lng;
+    document.documentElement.lang = lng.split('-')[0];
     document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
   }
 });

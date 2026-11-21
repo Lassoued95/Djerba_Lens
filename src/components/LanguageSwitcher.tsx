@@ -1,38 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { getLanguageFromPath, getLocalizedPath, languages } from '../routeConfig';
 
-const languages = [
-  { code: 'en', label: 'EN', flag: '🇬🇧' },
-  { code: 'fr', label: 'FR', flag: '🇫🇷' },
-  { code: 'ar', label: 'AR', flag: '🇸🇦' },
-];
+const languageLabels = {
+  en: { label: 'EN', flag: '🇬🇧' },
+  fr: { label: 'FR', flag: '🇫🇷' },
+} as const;
 
-const LanguageSwitcher: React.FC = () => {
-  const { i18n } = useTranslation();
+const LanguageSwitcher = () => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const { pathname } = useLocation();
+  const currentLanguage = getLanguageFromPath(pathname);
+  const current = languageLabels[currentLanguage];
 
-  const current = languages.find((l) => l.code === i18n.language.split('-')[0]) || languages[1];
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const savedLanguage = localStorage.getItem('language');
-    if (savedLanguage && languages.some((language) => language.code === savedLanguage)) {
-      void i18n.changeLanguage(savedLanguage);
-    }
-  }, [i18n]);
-
-  const changeLanguage = (lng: string) => {
-    if (typeof window !== 'undefined') localStorage.setItem('language', lng);
-    void i18n.changeLanguage(lng);
-    setOpen(false);
-  };
-
-  // Fermer si clic en dehors
   useEffect(() => {
     if (typeof document === 'undefined') return;
-    const handleClickOutside = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
         setOpen(false);
       }
     };
@@ -43,6 +28,8 @@ const LanguageSwitcher: React.FC = () => {
   return (
     <div className="relative" ref={ref}>
       <button
+        type="button"
+        aria-expanded={open}
         onClick={() => setOpen(!open)}
         className="flex items-center gap-1 p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200 text-sm"
       >
@@ -53,17 +40,22 @@ const LanguageSwitcher: React.FC = () => {
 
       {open && (
         <div className="absolute right-0 mt-1 rounded-lg shadow-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 z-50">
-          {languages.map((lang) => (
-            <button
-              key={lang.code}
-              onClick={() => changeLanguage(lang.code)}
-              className={`flex items-center gap-2 w-full px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors
-                ${lang.code === i18n.language ? 'font-bold text-orange-500' : ''}`}
-            >
-              <span>{lang.flag}</span>
-              <span>{lang.label}</span>
-            </button>
-          ))}
+          {languages.map((language) => {
+            const option = languageLabels[language];
+            return (
+              <a
+                key={language}
+                href={getLocalizedPath(pathname, language)}
+                aria-current={language === currentLanguage ? 'page' : undefined}
+                onClick={() => setOpen(false)}
+                className={`flex items-center gap-2 w-full px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors
+                  ${language === currentLanguage ? 'font-bold text-orange-500' : ''}`}
+              >
+                <span>{option.flag}</span>
+                <span>{option.label}</span>
+              </a>
+            );
+          })}
         </div>
       )}
     </div>

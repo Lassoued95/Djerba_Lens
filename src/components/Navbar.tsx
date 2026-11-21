@@ -4,6 +4,7 @@ import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
+import { getLanguageFromPath, getRoutePath } from '../routeConfig';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,8 +12,12 @@ const Navbar = () => {
   const { isDark, toggleTheme } = useTheme();
   const location = useLocation();
   const { t } = useTranslation();
+  const language = getLanguageFromPath(location.pathname);
   const isHeroAtTop =
-    (location.pathname === '/' || location.pathname === '/portfolio') && !isScrolled && !isOpen;
+    (location.pathname === getRoutePath('home', language) ||
+      location.pathname === getRoutePath('portfolio', language)) &&
+    !isScrolled &&
+    !isOpen;
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -24,11 +29,11 @@ const Navbar = () => {
   }, []);
 
   const navigation = [
-    { name: 'nav.home', href: '/' },
-    { name: 'nav.portfolio', href: '/portfolio' },
-    { name: 'nav.services', href: '/services' },
-    { name: 'nav.about', href: '/about' },
-    { name: 'nav.contact', href: '/contact' },
+    { name: 'nav.home', route: 'home' },
+    { name: 'nav.portfolio', route: 'portfolio' },
+    { name: 'nav.services', route: 'services' },
+    { name: 'nav.about', route: 'about' },
+    { name: 'nav.contact', route: 'contact' },
   ];
 
   return (
@@ -42,7 +47,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
+          <Link to={getRoutePath('home', language)} className="flex items-center space-x-3 group">
             <div className="bg-orange-100 dark:bg-orange-700 p-2 rounded-full shadow-md hover:shadow-xl transition-all duration-500 transform hover:scale-110 hover:rotate-3">
               <img
                 src="/assets/images/bg/logo.png"
@@ -66,9 +71,9 @@ const Navbar = () => {
             {navigation.map((item) => (
               <Link
                 key={item.name}
-                to={item.href}
+                to={getRoutePath(item.route, language)}
                 className={`text-sm font-medium transition-colors duration-200 ${
-                  location.pathname === item.href
+                  location.pathname === getRoutePath(item.route, language)
                     ? 'text-orange-600 dark:text-orange-400'
                     : isHeroAtTop
                     ? 'text-white/80 hover:text-orange-300'
@@ -134,10 +139,10 @@ const Navbar = () => {
               {navigation.map((item) => (
                 <Link
                   key={item.name}
-                  to={item.href}
+                  to={getRoutePath(item.route, language)}
                   onClick={() => setIsOpen(false)}
                   className={`block px-3 py-2 text-base font-medium rounded-lg transition-colors duration-200 ${
-                    location.pathname === item.href
+                    location.pathname === getRoutePath(item.route, language)
                       ? 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20'
                       : 'text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-gray-50 dark:hover:bg-gray-800'
                   }`}

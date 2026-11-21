@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Camera, MapPin, Star } from 'lucide-react';
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
@@ -10,15 +11,15 @@ import { useTranslation } from 'react-i18next';
 
 const cameraImage = '/assets/images/bg/camera_bg.png';
 const heroPhotos = [
-  { image: '/assets/images/bg/bg5.jpeg', alt: 'Littoral de Djerba', x: -30, y: -12, start: 0.17, end: 0.68, rotate: -10, scale: 0.9 },
-  { image: '/assets/images/tourists/1.jpg', alt: 'Séance photo à Djerba', x: 27, y: -15, start: 0.25, end: 0.72, rotate: 8, scale: 0.82 },
-  { image: '/assets/images/bg/bg3.jpg', alt: 'Paysage de Djerba', x: -27, y: 14, start: 0.33, end: 0.75, rotate: 7, scale: 0.94 },
-  { image: '/assets/images/tourists/2.jpg', alt: 'Portrait de voyage à Djerba', x: 30, y: 14, start: 0.41, end: 0.78, rotate: -8, scale: 0.86 },
-  { image: '/assets/images/bg/bg4.jpeg', alt: 'Balade au coucher du soleil', x: 2, y: -26, start: 0.49, end: 0.8, rotate: 3, scale: 0.76 },
-  { image: '/assets/images/bg/bg2.jpg', alt: 'Un instant sur l’île de Djerba', x: -6, y: 27, start: 0.56, end: 0.82, rotate: -4, scale: 0.82 },
+  { image: '/assets/images/bg/bg5.jpeg', alt: 'Littoral de Djerba', x: -30, y: -12, start: 0.1, end: 0.36, rotate: -10, scale: 0.9 },
+  { image: '/assets/images/tourists/1.jpg', alt: 'Séance photo à Djerba', x: 27, y: -15, start: 0.15, end: 0.4, rotate: 8, scale: 0.82 },
+  { image: '/assets/images/bg/bg3.jpg', alt: 'Paysage de Djerba', x: -27, y: 14, start: 0.2, end: 0.44, rotate: 7, scale: 0.94 },
+  { image: '/assets/images/tourists/2.jpg', alt: 'Portrait de voyage à Djerba', x: 30, y: 14, start: 0.25, end: 0.48, rotate: -8, scale: 0.86 },
+  { image: '/assets/images/bg/bg4.jpeg', alt: 'Balade au coucher du soleil', x: 2, y: -26, start: 0.3, end: 0.52, rotate: 3, scale: 0.76 },
+  { image: '/assets/images/bg/bg2.jpg', alt: 'Un instant sur l’île de Djerba', x: -6, y: 27, start: 0.35, end: 0.56, rotate: -4, scale: 0.82 },
 ];
 
-const CinematicHero = () => {
+const CinematicHero = ({ children }: { children: ReactNode }) => {
   const [mounted, setMounted] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
@@ -26,8 +27,10 @@ const CinematicHero = () => {
     setMounted(true);
   }, []);
 
-  if (prefersReducedMotion) return <StaticCinematicHero />;
-  return mounted ? <AnimatedCinematicHero /> : <StaticCinematicHero />;
+  if (prefersReducedMotion) return <StaticCinematicHero>{children}</StaticCinematicHero>;
+  return mounted
+    ? <AnimatedCinematicHero>{children}</AnimatedCinematicHero>
+    : <StaticCinematicHero>{children}</StaticCinematicHero>;
 };
 
 const HeroContent = () => {
@@ -65,23 +68,26 @@ const HeroContent = () => {
   );
 };
 
-const StaticCinematicHero = () => (
-  <section className="cinematic-hero" aria-label="DjerbaLens">
-    <div className="cinematic-scene">
-      <div className="cinematic-camera-stage" aria-hidden="true">
-        <div className="cinematic-camera-artwork">
-          <img src={cameraImage} alt="" width="1672" height="1106" />
+const StaticCinematicHero = ({ children }: { children: ReactNode }) => (
+  <>
+    <section className="cinematic-hero cinematic-hero--static" aria-label="DjerbaLens">
+      <div className="cinematic-scene">
+        <div className="cinematic-camera-stage" aria-hidden="true">
+          <div className="cinematic-camera-artwork">
+            <img src={cameraImage} alt="" width="1672" height="1106" />
+          </div>
+        </div>
+        <div className="cinematic-shade" aria-hidden="true" />
+        <div className="cinematic-copy cinematic-copy--intro">
+          <HeroContent />
         </div>
       </div>
-      <div className="cinematic-shade" aria-hidden="true" />
-      <div className="cinematic-copy cinematic-copy--intro">
-        <HeroContent />
-      </div>
-    </div>
-  </section>
+    </section>
+    {children}
+  </>
 );
 
-const AnimatedCinematicHero = () => {
+const AnimatedCinematicHero = ({ children }: { children: ReactNode }) => {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -96,50 +102,50 @@ const AnimatedCinematicHero = () => {
   });
   const cameraScale = useTransform(
     smoothProgress,
-    [0, 0.18, 0.58, 0.78, 0.92, 1],
-    [1, 1.04, 1.34, 1.38, 1.78, 2.15],
+    [0, 0.18, 0.42, 0.56, 0.8, 0.94, 1],
+    [1, 1.04, 1.32, 1.38, 1.78, 2.1, 2.15],
   );
   const cameraOpacity = useTransform(
     smoothProgress,
-    [0, 0.82, 0.9, 0.96, 1],
+    [0, 0.76, 0.9, 0.96, 1],
     [1, 1, 0.92, 0.55, 0],
   );
   const cameraX = useTransform(
     smoothProgress,
-    [0, 0.76, 0.9, 1],
+    [0, 0.56, 0.82, 1],
     ['0vw', '0vw', '18vw', '48vw'],
   );
   const cameraY = useTransform(
     smoothProgress,
-    [0, 0.76, 0.9, 1],
+    [0, 0.56, 0.82, 1],
     ['0vh', '-1vh', '-15vh', '-40vh'],
   );
   const cameraTilt = useTransform(
     smoothProgress,
-    [0, 0.76, 0.9, 1],
+    [0, 0.56, 0.82, 1],
     [0, -1.2, -7, -16],
   );
-  const lensOpacity = useTransform(smoothProgress, [0.08, 0.17, 0.28, 0.4, 0.5], [0, 0.92, 0.78, 0.3, 0]);
-  const lensScale = useTransform(smoothProgress, [0.08, 0.2, 0.45], [0.75, 1, 1.16]);
-  const flashAngle = useTransform(smoothProgress, [0.12, 0.2, 0.24], [88, 0, 0]);
+  const lensOpacity = useTransform(smoothProgress, [0.05, 0.12, 0.22, 0.32, 0.4], [0, 0.92, 0.78, 0.3, 0]);
+  const lensScale = useTransform(smoothProgress, [0.05, 0.14, 0.32], [0.75, 1, 1.16]);
+  const flashAngle = useTransform(smoothProgress, [0.06, 0.12, 0.18], [88, 0, 0]);
   const flashBurst = useTransform(
     smoothProgress,
-    [0.19, 0.23, 0.26, 0.29, 0.35],
+    [0.11, 0.15, 0.18, 0.21, 0.25],
     [0, 0.58, 0.82, 0.34, 0],
   );
   const flashBloomScale = useTransform(
     smoothProgress,
-    [0.2, 0.26, 0.35],
+    [0.12, 0.18, 0.25],
     [0.3, 0.86, 1.8],
   );
   const introOpacity = useTransform(smoothProgress, [0, 0.08, 0.19, 0.28], [1, 1, 0.6, 0]);
   const introY = useTransform(smoothProgress, [0, 0.28], ['0vh', '-3vh']);
   const finaleOpacity = useTransform(
     smoothProgress,
-    [0.67, 0.82, 0.94, 1],
-    [0, 1, 0.72, 0],
+    [0.42, 0.5, 0.55, 0.6],
+    [0, 1, 0.65, 0],
   );
-  const finaleY = useTransform(smoothProgress, [0.67, 0.9], ['3vh', '0vh']);
+  const finaleY = useTransform(smoothProgress, [0.42, 0.55], ['3vh', '0vh']);
   const pageTransitionOpacity = useTransform(smoothProgress, [0.86, 0.96, 1], [0, 0.5, 1]);
   const scrollProgressScale = useTransform(smoothProgress, [0, 1], [0, 1]);
 
@@ -231,6 +237,8 @@ const AnimatedCinematicHero = () => {
           </span>
         </motion.div>
       </div>
+      <div className="cinematic-hero-spacer" aria-hidden="true" />
+      <div className="cinematic-journey-copy">{children}</div>
     </div>
   );
 };
@@ -304,51 +312,51 @@ const Home = () => {
         structuredData={localBusinessSchema}
       />
       {/* Cinematic scroll-driven flythrough hero */}
-      <CinematicHero />
-
-      <section className="bg-white py-16 dark:bg-gray-900">
-        <div className="mx-auto max-w-5xl space-y-6 px-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Votre photographe à Djerba, pour les moments et les lieux qui comptent
-          </h2>
-          <p>
-            DjerbaLens vous accompagne pour créer des images sincères et soignées sur l’île de Djerba.
-            Une séance photo peut raconter un séjour à deux, réunir plusieurs générations ou présenter
-            l’atmosphère d’un hébergement. Pour les professionnels, la photographie et la vidéo
-            permettent de montrer un lieu, un produit ou un savoir-faire avec des visuels préparés
-            pour vos supports. Chaque projet commence par un échange afin de comprendre vos envies,
-            votre calendrier et la manière dont vous souhaitez utiliser les images.
-          </p>
-          <p>
-            Pour les couples, la séance laisse de la place aux gestes naturels, aux conversations et
-            aux petits moments partagés. Vous n’avez pas besoin de savoir poser : des indications
-            simples vous aident à vous sentir à l’aise devant l’objectif. Pour les familles, le rythme
-            s’adapte aux personnes présentes, avec des portraits de groupe et des instants spontanés.
-            Le lieu se choisit ensemble selon l’ambiance recherchée et les conditions du jour, afin que
-            les photos ressemblent à votre expérience plutôt qu’à une mise en scène imposée.
-          </p>
-          <p>
-            Les hôtels et villas peuvent demander des images de leurs espaces intérieurs, extérieurs
-            et détails, préparées selon les usages prévus. Les restaurants et activités locales peuvent
-            également présenter leurs produits et leur accueil par la photographie ou la vidéo.
-            Avant la prise de vue, nous définissons les éléments à montrer, l’accès aux lieux et les
-            formats souhaités. Les tarifs et le périmètre exact sont confirmés dans un devis :
-            TODO — compléter les prix et les options avant publication.
-          </p>
-          <p>
-            La durée d’une séance, le nombre de livrables et le calendrier de livraison dépendent du
-            projet. Ces informations sont précisées avant toute réservation — TODO : confirmer les
-            durées et délais habituels par type de prestation. Après la prise de vue, les images
-            convenues sont sélectionnées et travaillées avec soin, puis livrées en format numérique.
-            Pour découvrir le fonctionnement d’une séance, consultez les pages dédiées aux
-            <Link className="text-red-700 underline dark:text-red-300" to="/photographe-couple-djerba"> couples</Link>,
-            <Link className="text-red-700 underline dark:text-red-300" to="/photographe-famille-djerba"> familles</Link>,
-            <Link className="text-red-700 underline dark:text-red-300" to="/photographe-hotel-villa-djerba"> hôtels et villas</Link>
-            {' '}et à la <Link className="text-red-700 underline dark:text-red-300" to="/contenu-photo-video-djerba">création photo/vidéo</Link>.
-            Contactez-moi pour discuter de votre idée et préparer une proposition adaptée.
-          </p>
-        </div>
-      </section>
+      <CinematicHero>
+        <section className="bg-white py-16 dark:bg-gray-900">
+          <div className="mx-auto max-w-5xl space-y-6 px-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Votre photographe à Djerba, pour les moments et les lieux qui comptent
+            </h2>
+            <p>
+              DjerbaLens vous accompagne pour créer des images sincères et soignées sur l’île de Djerba.
+              Une séance photo peut raconter un séjour à deux, réunir plusieurs générations ou présenter
+              l’atmosphère d’un hébergement. Pour les professionnels, la photographie et la vidéo
+              permettent de montrer un lieu, un produit ou un savoir-faire avec des visuels préparés
+              pour vos supports. Chaque projet commence par un échange afin de comprendre vos envies,
+              votre calendrier et la manière dont vous souhaitez utiliser les images.
+            </p>
+            <p>
+              Pour les couples, la séance laisse de la place aux gestes naturels, aux conversations et
+              aux petits moments partagés. Vous n’avez pas besoin de savoir poser : des indications
+              simples vous aident à vous sentir à l’aise devant l’objectif. Pour les familles, le rythme
+              s’adapte aux personnes présentes, avec des portraits de groupe et des instants spontanés.
+              Le lieu se choisit ensemble selon l’ambiance recherchée et les conditions du jour, afin que
+              les photos ressemblent à votre expérience plutôt qu’à une mise en scène imposée.
+            </p>
+            <p>
+              Les hôtels et villas peuvent demander des images de leurs espaces intérieurs, extérieurs
+              et détails, préparées selon les usages prévus. Les restaurants et activités locales peuvent
+              également présenter leurs produits et leur accueil par la photographie ou la vidéo.
+              Avant la prise de vue, nous définissons les éléments à montrer, l’accès aux lieux et les
+              formats souhaités. Les tarifs et le périmètre exact sont confirmés dans un devis :
+              TODO — compléter les prix et les options avant publication.
+            </p>
+            <p>
+              La durée d’une séance, le nombre de livrables et le calendrier de livraison dépendent du
+              projet. Ces informations sont précisées avant toute réservation — TODO : confirmer les
+              durées et délais habituels par type de prestation. Après la prise de vue, les images
+              convenues sont sélectionnées et travaillées avec soin, puis livrées en format numérique.
+              Pour découvrir le fonctionnement d’une séance, consultez les pages dédiées aux
+              <Link className="text-red-700 underline dark:text-red-300" to="/photographe-couple-djerba"> couples</Link>,
+              <Link className="text-red-700 underline dark:text-red-300" to="/photographe-famille-djerba"> familles</Link>,
+              <Link className="text-red-700 underline dark:text-red-300" to="/photographe-hotel-villa-djerba"> hôtels et villas</Link>
+              {' '}et à la <Link className="text-red-700 underline dark:text-red-300" to="/contenu-photo-video-djerba">création photo/vidéo</Link>.
+              Contactez-moi pour discuter de votre idée et préparer une proposition adaptée.
+            </p>
+          </div>
+        </section>
+      </CinematicHero>
 
       {/* Featured Work Preview */}
       <section className="py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">

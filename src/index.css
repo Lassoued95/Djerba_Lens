@@ -24,15 +24,38 @@ body,
 
 .cinematic-hero {
   position: relative;
-  height: 500vh;
   background: var(--dl-navy);
   color: var(--dl-text);
   isolation: isolate;
 }
 
+.cinematic-hero--static {
+  height: 100vh;
+  height: 100svh;
+}
+
+.cinematic-hero-spacer {
+  height: 240vh;
+}
+
+.cinematic-journey-copy {
+  position: relative;
+  z-index: 2;
+}
+
+.cinematic-journey-copy > section {
+  background-color: rgba(255, 255, 255, 0.66);
+  backdrop-filter: blur(4px);
+}
+
+.dark .cinematic-journey-copy > section {
+  background-color: rgba(17, 24, 39, 0.7);
+}
+
 .cinematic-scene {
   position: sticky;
   top: 0;
+  z-index: 0;
   height: 100vh;
   height: 100svh;
   min-height: 0;
@@ -218,6 +241,10 @@ body,
   z-index: 4;
   pointer-events: none;
   background: linear-gradient(120deg, #fff 0%, #fbf8f2 100%);
+}
+
+.dark .cinematic-page-transition {
+  background: linear-gradient(120deg, #111827 0%, #0b1b2e 100%);
 }
 
 .cinematic-shade {
@@ -519,7 +546,7 @@ body,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cinematic-hero {
+  .cinematic-hero--static {
     height: 100vh;
     height: 100svh;
   }

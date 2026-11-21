@@ -25,9 +25,14 @@ const ContactForm = () => {
     e.preventDefault();
     setIsLoading(true);
 
+    // Keys must match the {{variables}} used in the EmailJS templates.
+    // Both naming styles are sent so the notification and auto-reply templates work.
     const templateParams = {
+      name: formData.name,
+      email: formData.email,
       from_name: formData.name,
       reply_to: formData.email,
+      to_email: formData.email,
       phone: formData.phone,
       message: formData.message,
     };

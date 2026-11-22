@@ -124,7 +124,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ editingReview, onCancelEdit }) 
             value={formData.name}
             onChange={handleChange}
             placeholder="John Doe"
-            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-red-500 focus:border-transparent"
+            className="w-full border border-[#0b1b2e]/15 bg-[#faf9f6] p-3 text-[#0b1b2e] transition-colors focus:border-[#b77a3f] focus:outline-none focus:ring-2 focus:ring-[#b77a3f]/20 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
             required
           />
         </div>
@@ -138,7 +138,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ editingReview, onCancelEdit }) 
             value={formData.location}
             onChange={handleChange}
             placeholder="Paris, France"
-            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-red-500 focus:border-transparent"
+            className="w-full border border-[#0b1b2e]/15 bg-[#faf9f6] p-3 text-[#0b1b2e] transition-colors focus:border-[#b77a3f] focus:outline-none focus:ring-2 focus:ring-[#b77a3f]/20 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
           />
         </div>
       </div>
@@ -177,7 +177,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ editingReview, onCancelEdit }) 
           onChange={handleChange}
           rows={4}
           placeholder="Share your experience..."
-          className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
+          className="w-full resize-none border border-[#0b1b2e]/15 bg-[#faf9f6] p-3 text-[#0b1b2e] transition-colors focus:border-[#b77a3f] focus:outline-none focus:ring-2 focus:ring-[#b77a3f]/20 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
           required
         />
       </div>
@@ -187,7 +187,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ editingReview, onCancelEdit }) 
           Add Photo (Optional)
         </label>
         {!imagePreview ? (
-          <label className="flex items-center justify-center w-full p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-red-500 dark:hover:border-red-400 transition-colors">
+          <label className="flex w-full cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 transition-colors hover:border-[#b77a3f] dark:border-gray-600">
             <div className="text-center">
               <Upload className="h-10 w-10 text-gray-400 mx-auto mb-2" />
               <span className="text-gray-600 dark:text-gray-300">Click to upload image</span>
@@ -228,7 +228,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ editingReview, onCancelEdit }) 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 shadow-lg"
+        className="flex min-h-12 w-full items-center justify-center gap-2 bg-[#b77a3f] px-4 py-3 font-semibold text-white shadow-md transition-colors hover:bg-[#f28c28] disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isSubmitting ? (
           <>

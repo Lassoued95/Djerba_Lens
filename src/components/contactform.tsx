@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
 import { Send, CheckCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const SERVICE_ID = 'service_f8oz8uk';
 const TEMPLATE_ID = 'template_1x54ays';
@@ -8,6 +9,7 @@ const AUTO_REPLY_TEMPLATE_ID = 'template_fkpc0nf';
 const PUBLIC_KEY = 'Qut9jZ376JK9TYUp6';
 
 const ContactForm = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -55,27 +57,30 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg transition-colors duration-300">
-      <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-        Send a Message
+    <div className="border border-[#0b1b2e]/10 bg-white p-6 shadow-[0_1rem_2.5rem_rgba(11,27,46,0.07)] dark:bg-gray-900 sm:p-8">
+      <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#a56d39]">
+        DjerbaLens
+      </p>
+      <h2 className="mb-8 mt-3 font-serif text-3xl font-normal text-[#0b1b2e] dark:text-white">
+        {t('common.sendMessage')}
       </h2>
 
       {isSubmitted ? (
         <div className="text-center py-12">
           <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
-          <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
-            Message Sent!
+          <h3 className="mb-2 text-2xl font-semibold text-gray-900 dark:text-white">
+            {t('common.messageSent')}
           </h3>
           <p className="text-gray-600 dark:text-gray-300">
-            Thank you for reaching out. I'll get back to you within 24 hours.
+            {t('common.thankYou')}
           </p>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Full Name *
+              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+              {t('common.fullName')}
               </label>
               <input
                 type="text"
@@ -83,13 +88,13 @@ const ContactForm = () => {
                 required
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                placeholder="Your full name"
+                className="w-full border border-[#0b1b2e]/15 bg-[#faf9f6] px-4 py-3 text-[#0b1b2e] transition-colors placeholder:text-[#59636d]/70 focus:border-[#b77a3f] focus:outline-none focus:ring-2 focus:ring-[#b77a3f]/20 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                placeholder={t('common.namePlaceholder')}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Email Address *
+              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                {t('common.email')}
               </label>
               <input
                 type="email"
@@ -97,31 +102,31 @@ const ContactForm = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                placeholder="your@email.com"
+                className="w-full border border-[#0b1b2e]/15 bg-[#faf9f6] px-4 py-3 text-[#0b1b2e] transition-colors placeholder:text-[#59636d]/70 focus:border-[#b77a3f] focus:outline-none focus:ring-2 focus:ring-[#b77a3f]/20 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                placeholder={t('common.emailPlaceholder')}
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Phone Number
+              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                {t('common.phone')}
               </label>
               <input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                placeholder="+216 12 345 678"
+                className="w-full border border-[#0b1b2e]/15 bg-[#faf9f6] px-4 py-3 text-[#0b1b2e] transition-colors placeholder:text-[#59636d]/70 focus:border-[#b77a3f] focus:outline-none focus:ring-2 focus:ring-[#b77a3f]/20 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                placeholder={t('common.phonePlaceholder')}
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Message *
+            <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+              {t('common.message')}
             </label>
             <textarea
               name="message"
@@ -129,18 +134,18 @@ const ContactForm = () => {
               rows={6}
               value={formData.message}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white resize-none"
-              placeholder="Tell me about your project, preferred dates, and any specific requirements..."
+              className="w-full resize-none border border-[#0b1b2e]/15 bg-[#faf9f6] px-4 py-3 text-[#0b1b2e] transition-colors placeholder:text-[#59636d]/70 focus:border-[#b77a3f] focus:outline-none focus:ring-2 focus:ring-[#b77a3f]/20 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+              placeholder={t('common.messagePlaceholder')}
             ></textarea>
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-4 rounded-lg transition-all duration-300 flex items-center justify-center transform hover:scale-105 shadow-lg hover:shadow-xl"
+            className="flex min-h-12 w-full items-center justify-center gap-2 bg-[#b77a3f] px-5 py-3 font-semibold text-white shadow-md transition-colors hover:bg-[#f28c28] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isLoading ? 'Sending...' : 'Send Message'}
-            <Send className="ml-2 h-5 w-5" />
+            {isLoading ? t('contact.sending') : t('common.send')}
+            <Send aria-hidden="true" className="h-4 w-4" />
           </button>
         </form>
       )}

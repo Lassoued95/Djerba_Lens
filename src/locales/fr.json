@@ -36,7 +36,26 @@
     "reviews": "Avis",
     "contactInformation": "Informations de contact",
     "quickBooking": "Réservation rapide",
-    "whatsappMe": "Contactez sur WhatsApp"
+    "quickBookingDesc": "Pour une question rapide ou des renseignements sur une réservation, écrivez-moi directement sur WhatsApp.",
+    "whatsappMe": "Écrire sur WhatsApp",
+    "email": "E-mail",
+    "phoneWhatsapp": "Téléphone / WhatsApp",
+    "location": "Lieu",
+    "locationValue": "Djerba, Tunisie",
+    "responseTime": "Délai de réponse",
+    "responseTimeValue": "Généralement sous 24 heures",
+    "faqTitle": "Quelques réponses rapides",
+    "faq": {
+      "q1": "Où les séances sont-elles proposées ?",
+      "a1": "Les séances et prestations sur place sont proposées partout à Djerba.",
+      "q2": "Que préciser dans mon message ?",
+      "a2": "Indiquez la date souhaitée, le nombre de participants, le lieu et le type d’images recherchées.",
+      "q3": "Comment réserver ?",
+      "a3": "Écrivez via le formulaire ou WhatsApp. Nous confirmerons les disponibilités et les détails avant la réservation."
+    },
+    "shareExperience": "Partagez votre expérience",
+    "clientReviews": "Avis des clients",
+    "sending": "Envoi..."
   },
   "portfolio": {
     "title": "Portfolio",
@@ -115,6 +134,12 @@
     "description": "Approuvé par des touristes et des entreprises partout en Tunisie",
     "leaveReview": "Laisser un avis"
   },
+  "footer": {
+    "tagline": "Photographie et récits visuels à Djerba, en Tunisie.",
+    "explore": "Explorer",
+    "copyright": "Tous droits réservés.",
+    "developedBy": "Développé par"
+  },
   "common": {
     "viewMore": "Lire la suite",
     "messageSent": "Message envoyé !",
@@ -124,6 +149,10 @@
     "email": "Adresse e-mail *",
     "phone": "Numéro de téléphone",
     "message": "Message *",
+    "namePlaceholder": "Votre nom complet",
+    "emailPlaceholder": "vous@exemple.com",
+    "phonePlaceholder": "+216 12 345 678",
+    "messagePlaceholder": "Parlez-moi de votre projet, des dates souhaitées et de vos besoins...",
     "send": "Envoyer"
   }
 }

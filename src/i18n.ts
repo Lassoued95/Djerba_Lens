@@ -3,6 +3,10 @@ import { initReactI18next } from 'react-i18next';
 import en from './locales/en.json';
 import fr from './locales/fr.json';
 import ar from './locales/ar.json';
+import { getLanguageFromPath } from './routeConfig';
+
+const initialLanguage =
+  typeof window === 'undefined' ? 'en' : getLanguageFromPath(window.location.pathname);
 
 i18n
   .use(initReactI18next)
@@ -12,7 +16,7 @@ i18n
       fr: { translation: fr },
       ar: { translation: ar },
     },
-    lng: 'en',
+    lng: initialLanguage,
     fallbackLng: 'en',
     debug: false,
     interpolation: { escapeValue: false },

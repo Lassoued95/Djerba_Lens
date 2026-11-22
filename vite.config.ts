@@ -32,6 +32,8 @@ export default defineConfig({
   ssgOptions: {
     entry: 'src/main.tsx',
     dirStyle: 'nested',
+    // Route loaders update the shared i18n instance; avoid locale races during prerendering.
+    concurrency: 1,
     includedRoutes: () => [...routePaths],
     onFinished: async (outDir: string) => {
       const lastmod = new Date().toISOString().slice(0, 10);

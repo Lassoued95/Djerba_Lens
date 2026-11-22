@@ -36,7 +36,26 @@
     "reviews": "Reviews",
     "contactInformation": "Contact Information",
     "quickBooking": "Quick Booking",
-    "whatsappMe": "WhatsApp Me"
+    "quickBookingDesc": "For a quick question or booking details, message me directly on WhatsApp.",
+    "whatsappMe": "WhatsApp Me",
+    "email": "Email",
+    "phoneWhatsapp": "Phone / WhatsApp",
+    "location": "Location",
+    "locationValue": "Djerba, Tunisia",
+    "responseTime": "Response time",
+    "responseTimeValue": "Usually within 24 hours",
+    "faqTitle": "A few quick answers",
+    "faq": {
+      "q1": "Where are sessions available?",
+      "a1": "Sessions and on-location services are available across Djerba.",
+      "q2": "What should I include in my message?",
+      "a2": "Share your preferred date, group size, location, and the kind of images you need.",
+      "q3": "How do I book?",
+      "a3": "Send a message through the form or WhatsApp. We will confirm availability and details before booking."
+    },
+    "shareExperience": "Share your experience",
+    "clientReviews": "Client reviews",
+    "sending": "Sending..."
   },
   "portfolio": {
     "title": "Portfolio",
@@ -48,7 +67,89 @@
     "description": "Professional photography and creative services to help you capture memories and promote your business in Djerba",
     "packagesTitle": "Popular Packages",
     "packagesDescription": "Choose from our carefully crafted packages or customize your own",
-    "viewAll": "View All Services"
+    "viewAll": "View All Services",
+    "touristShoot": {
+      "title": "Tourist Photo Sessions",
+      "description": "Professional photo sessions for couples, families, and groups in Djerba",
+      "duration": "1-2 hours",
+      "features": [
+        "30-50 retouched photos",
+        "Multiple locations in Djerba",
+        "Professional lighting",
+        "High-resolution files"
+      ]
+    },
+    "promoVideo": {
+      "title": "Promotional Videos",
+      "description": "High-quality video content for local businesses in Djerba",
+      "duration": "1-3 days",
+      "features": [
+        "Professional videography",
+        "Color grading and editing",
+        "Scriptwriting assistance"
+      ]
+    },
+    "photoEditing": {
+      "title": "Photo Retouching and Editing",
+      "description": "Professional post-processing to enhance your photos",
+      "duration": "24-48 hours",
+      "features": [
+        "Color correction",
+        "Exposure adjustment",
+        "Background removal",
+        "Skin retouching",
+        "Artistic effects"
+      ]
+    },
+    "packages": {
+      "touristEssential": {
+        "name": "Tourist Essential",
+        "description": "Perfect for couples and small groups in Djerba",
+        "features": [
+          "2-hour photo session",
+          "40 retouched photos",
+          "2 locations in Djerba",
+          "Online gallery",
+          "Mobile-optimized"
+        ]
+      },
+      "foodShooting": {
+        "name": "Food Photography",
+        "description": "Professional food photography for restaurants, cafés, and caterers in Djerba",
+        "features": [
+          "Up to 20 styled food photos",
+          "Professional lighting",
+          "Color grading and retouching",
+          "Menu and social media formats",
+          "Delivery within 48 hours"
+        ]
+      },
+      "villaShooting": {
+        "name": "Villa Photography",
+        "description": "Professional photo and video package for rentals and real estate in Djerba",
+        "features": [
+          "Interior and exterior photos",
+          "Wide-angle and detail shots",
+          "Video tour",
+          "Color grading and editing"
+        ]
+      },
+      "mostPopular": "Most Popular",
+      "bookNow": "Book Now"
+    },
+    "location": {
+      "title": "Based in Djerba – Local Services Only",
+      "description": "All sessions and services are offered exclusively in Djerba. From the old medina to the beach, I help you capture timeless moments on Tunisia's most beautiful island.",
+      "place": "Location: Djerba Island only",
+      "specialized": "Specialized in local photography",
+      "response": "Quick response within 24 hours"
+    },
+    "cta": {
+      "title": "Ready to Book Your Session?",
+      "description": "Let's create something beautiful together. Contact me now to discuss your project!",
+      "getInTouch": "Get in Touch",
+      "whatsapp": "WhatsApp"
+    }
   },
   "blog": {
     "title": "Blog",
@@ -61,6 +162,12 @@
     "description": "Trusted by tourists and businesses across Tunisia",
     "leaveReview": "Leave a Review"
   },
+  "footer": {
+    "tagline": "Photography and visual storytelling in Djerba, Tunisia.",
+    "explore": "Explore",
+    "copyright": "All rights reserved.",
+    "developedBy": "Developed by"
+  },
   "common": {
     "viewMore": "Read More",
     "messageSent": "Message Sent!",
@@ -70,6 +177,10 @@
     "email": "Email Address *",
     "phone": "Phone Number",
     "message": "Message *",
+    "namePlaceholder": "Your full name",
+    "emailPlaceholder": "you@example.com",
+    "phonePlaceholder": "+216 12 345 678",
+    "messagePlaceholder": "Tell me about your project, preferred dates, and any specific requirements...",
     "send": "Send"
   }
 }

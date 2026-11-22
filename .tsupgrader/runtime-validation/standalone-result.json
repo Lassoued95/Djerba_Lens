@@ -1,0 +1,27 @@
+{
+  "planHash": "c1958f4e6a906f099d19c8242342f45c8bca6f1f0295603446e02b50fdc3b433",
+  "phase": "standalone",
+  "recordedAtUtc": "2026-11-21T23:51:17.7720423Z",
+  "retryCount": 4,
+  "resetBaseline": false,
+  "complete": true,
+  "result": {
+    "setupSucceeded": false,
+    "setupDurationMs": 4729,
+    "setupFailureOutput": "setup step 0 \u0027npm\u0027 failed (exit=-4048, timedOut=False)\r\nnpm error code EPERM\r\nnpm error syscall unlink\r\nnpm error path D:\\photography_portf\\node_modules\\@esbuild\\win32-x64\\esbuild.exe\r\nnpm error errno -4048\r\nnpm error [Error: EPERM: operation not permitted, unlink \u0027D:\\photography_portf\\node_modules\\@esbuild\\win32-x64\\esbuild.exe\u0027] {\r\nnpm error   errno: -4048,\r\nnpm error   code: \u0027EPERM\u0027,\r\nnpm error   syscall: \u0027unlink\u0027,\r\nnpm error   path: \u0027D:\\\\photography_portf\\\\node_modules\\\\@esbuild\\\\win32-x64\\\\esbuild.exe\u0027\r\nnpm error }\r\nnpm error\r\nnpm error The operation was rejected by your operating system.\r\nnpm error It\u0027s possible that the file was already in use (by a text editor or antivirus),\r\nnpm error or that you lack permissions to access it.\r\nnpm error\r\nnpm error If you believe this might be a permissions issue, please double-check the\r\nnpm error permissions of the file and its containing directories, or try running\r\nnpm error the command again as root/Administrator.\r\nnpm error A complete log of this run can be found in: C:\\Users\\lasso\\AppData\\Local\\npm-cache\\_logs\\2026-11-21T23_51_13_366Z-debug-0.log\r\n",
+    "assertions": [],
+    "executions": [
+      {
+        "source": "setup[0]",
+        "resolvedExecutable": "C:\\nvm4w\\nodejs\\npm.CMD",
+        "args": [
+          "ci"
+        ],
+        "cwd": "D:\\photography_portf",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32"
+      }
+    ]
+  }
+}

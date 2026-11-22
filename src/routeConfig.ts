@@ -21,7 +21,7 @@ export const routeConfig = [
   },
   {
     key: 'portfolio',
-    paths: { en: '/portfolio', fr: '/fr/portfolio' },
+    paths: { en: '/portfolio/', fr: '/fr/portfolio/' },
     seo: {
       en: {
         title: 'Photography Portfolio in Djerba | DjerbaLens',
@@ -37,7 +37,7 @@ export const routeConfig = [
   },
   {
     key: 'services',
-    paths: { en: '/services', fr: '/fr/services' },
+    paths: { en: '/services/', fr: '/fr/services/' },
     seo: {
       en: {
         title: 'Photography and Video Services in Djerba | DjerbaLens',
@@ -53,7 +53,7 @@ export const routeConfig = [
   },
   {
     key: 'about',
-    paths: { en: '/about', fr: '/fr/about' },
+    paths: { en: '/about/', fr: '/fr/about/' },
     seo: {
       en: {
         title: 'About DjerbaLens | Photographer in Djerba',
@@ -69,7 +69,7 @@ export const routeConfig = [
   },
   {
     key: 'contact',
-    paths: { en: '/contact', fr: '/fr/contact' },
+    paths: { en: '/contact/', fr: '/fr/contact/' },
     seo: {
       en: {
         title: 'Contact Your Photographer in Djerba | DjerbaLens',
@@ -86,8 +86,8 @@ export const routeConfig = [
   {
     key: 'couple',
     paths: {
-      en: '/photographe-couple-djerba',
-      fr: '/fr/photographe-couple-djerba',
+      en: '/photographe-couple-djerba/',
+      fr: '/fr/photographe-couple-djerba/',
     },
     seo: {
       en: {
@@ -105,8 +105,8 @@ export const routeConfig = [
   {
     key: 'family',
     paths: {
-      en: '/photographe-famille-djerba',
-      fr: '/fr/photographe-famille-djerba',
+      en: '/photographe-famille-djerba/',
+      fr: '/fr/photographe-famille-djerba/',
     },
     seo: {
       en: {
@@ -124,8 +124,8 @@ export const routeConfig = [
   {
     key: 'hotelVilla',
     paths: {
-      en: '/photographe-hotel-villa-djerba',
-      fr: '/fr/photographe-hotel-villa-djerba',
+      en: '/photographe-hotel-villa-djerba/',
+      fr: '/fr/photographe-hotel-villa-djerba/',
     },
     seo: {
       en: {
@@ -143,8 +143,8 @@ export const routeConfig = [
   {
     key: 'photoVideo',
     paths: {
-      en: '/contenu-photo-video-djerba',
-      fr: '/fr/contenu-photo-video-djerba',
+      en: '/contenu-photo-video-djerba/',
+      fr: '/fr/contenu-photo-video-djerba/',
     },
     seo: {
       en: {
@@ -161,7 +161,7 @@ export const routeConfig = [
   },
   {
     key: 'blog',
-    paths: { en: '/blog', fr: '/fr/blog' },
+    paths: { en: '/blog/', fr: '/fr/blog/' },
     seo: {
       en: {
         title: 'Photography and Travel Tips in Djerba | DjerbaLens',
@@ -177,7 +177,7 @@ export const routeConfig = [
   },
   {
     key: 'reviews',
-    paths: { en: '/reviews', fr: '/fr/reviews' },
+    paths: { en: '/reviews/', fr: '/fr/reviews/' },
     seo: {
       en: {
         title: 'Client Reviews in Djerba | DjerbaLens',

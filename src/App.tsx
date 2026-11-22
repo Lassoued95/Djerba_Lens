@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import type { RouteRecord } from 'vite-react-ssg';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import i18n from './i18n';
 import { routeConfig, type Language, type RouteKey } from './routeConfig';
@@ -30,9 +31,8 @@ function AppLayout() {
       <div className="min-h-screen bg-white transition-colors duration-300 dark:bg-gray-900">
         <Navbar />
         <ScrollToTop />
-        <Suspense fallback={null}>
-          <Outlet />
-        </Suspense>
+        <Outlet />
+        <Footer />
         <ChatBotMount />
       </div>
     </ThemeProvider>
@@ -43,13 +43,17 @@ const lazyPage = (
   load: () => Promise<{ default: ComponentType }>,
   language: Language,
 ) => async () => {
-  await i18n.changeLanguage(language);
+  if (i18n.language !== language) {
+    await i18n.changeLanguage(language);
+  }
   const page = await load();
   return { Component: page.default };
 };
 
 const lazyService = (exportName: string, language: Language) => async () => {
-  await i18n.changeLanguage(language);
+  if (i18n.language !== language) {
+    await i18n.changeLanguage(language);
+  }
   const page = await import('./pages/ServiceLandingPage');
   const Component = page[exportName as keyof typeof page];
   if (typeof Component !== 'function') {
